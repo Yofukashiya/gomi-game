@@ -306,13 +306,14 @@ const LABS = (() => {
       $('#loop-stat').textContent =
         `1周 ${sec}日 → 3ヶ月で 約${Math.floor(90 / sec)} 回試せる\n` +
         `当たりが10回に1回なら、期待できる当たり ${(Math.floor(90 / sec) / 10).toFixed(1)} 個`;
+      laps = 0;
     }
     s.oninput = () => { stat(); D.expOnce('loop', 5, 'ループ速度'); };
-    D.on('ループの回転数', {
+    D.on('AIは何を速くする', {
       enter() {
         stat(); const d = fit(cv), W = cv.width, H = cv.height, R = Math.min(W, H) * .3;
         stop = loop((dt) => {
-          const sec = +s.value, speed = (1 / sec) * 2.2;
+          const sec = +s.value, speed = (Math.PI * 2) / (sec * .34);   /* lap ≈ sec*0.34s */
           ang += dt * speed; if (ang > Math.PI * 2) { ang -= Math.PI * 2; laps++; }
           c.fillStyle = '#060a16'; c.fillRect(0, 0, W, H);
           c.strokeStyle = 'rgba(60,224,255,.35)'; c.lineWidth = 2 * d;
@@ -328,8 +329,12 @@ const LABS = (() => {
           const a = -Math.PI / 2 + ang;
           const px = W / 2 + Math.cos(a) * R, py = H / 2 + Math.sin(a) * R;
           c.fillStyle = '#ff5cc8'; c.beginPath(); c.arc(px, py, 8 * d, 0, 7); c.fill();
-          c.fillStyle = '#5ff2a8'; c.font = `${13 * d}px ui-monospace,monospace`;
+          c.fillStyle = '#5ff2a8'; c.font = `${15 * d}px ui-monospace,monospace`;
           c.fillText(`試行回数 ${laps}`, W / 2, H / 2 + 5 * d);
+          for (let i = 0; i < Math.min(laps, 60); i++) {   /* one dot per attempt */
+            c.fillStyle = i % 10 === 9 ? '#ffd166' : '#5ff2a8';
+            c.fillRect(14 * d + (i % 30) * 7 * d, H - 34 * d + Math.floor(i / 30) * 7 * d, 5 * d, 5 * d);
+          }
           c.fillStyle = '#93a4cc'; c.font = `${11 * d}px sans-serif`;
           c.fillText('AIが安くするのは Try', W / 2, H - 14 * d);
           c.textAlign = 'left';

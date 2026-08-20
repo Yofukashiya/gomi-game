@@ -423,3 +423,26 @@ body.lvflash::before{content:"";position:fixed;inset:0;z-index:5;pointer-events:
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(ellipse 78% 72% at 40% 48%,rgba(4,6,15,.94) 0%,rgba(4,6,15,.7) 58%,rgba(4,6,15,.15) 88%)}
 .levelcard{bottom:7vh}
+
+/* sliders were 5px tall — nearly impossible to grab, especially on a touchscreen */
+input[type=range]{height:16px;border-radius:99px;background:var(--panel2);cursor:pointer;
+  touch-action:none;border:1px solid var(--line);margin-top:.5em}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;
+  background:var(--cy);cursor:grab;border:3px solid #04101c}
+input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.08)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--cy);
+  border:3px solid #04101c;cursor:grab}
+.lab-panel label,.loopctl label{margin:1em 0;font-size:1em}
+.loopctl label::after{content:"◀ ドラッグ ▶";display:block;font-family:var(--mono);font-size:.7em;
+  color:var(--dim);letter-spacing:.1em;margin-top:.35em}
+
+/* ── readability over the 3D world ───────────────────────────── */
+#bg3d{opacity:.5;filter:blur(1.1px)}
+/* content sits on its own scrim; the world stays visible at the right edge */
+.stage{isolation:isolate}
+.stage::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(100deg,rgba(4,6,15,.94) 0%,rgba(4,6,15,.9) 58%,rgba(4,6,15,.55) 82%,rgba(4,6,15,.2) 100%)}
+.title-stage::before,.boss-stage::before{display:none}
+.stage-h,.stage p,.stage li,.stage h3,.stage h4,.quest,.risks article,.wrap3 article,.c3{
+  text-shadow:0 2px 12px rgba(4,6,15,.95)}
+.qnum,.rn,.wn,.am small,.stat small{text-shadow:none}
