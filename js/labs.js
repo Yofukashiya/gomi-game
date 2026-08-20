@@ -2,7 +2,6 @@
 const LABS = (() => {
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
-  const raf = [];
   function loop(fn) { // returns stop()
     let last = performance.now(), alive = true;
     (function step(t) {
@@ -35,7 +34,7 @@ const LABS = (() => {
           for (const s of stars) {
             s.x -= s.z * .35; if (s.x < 0) s.x = cv.width;
             c.globalAlpha = .25 + s.z * .3;
-            c.fillStyle = s.z > 1.6 ? '#ff5cc8' : '#3ce0ff';
+            c.fillStyle = s.z > 1.6 ? '#e04b34' : '#f0a33b';
             c.fillRect(s.x, s.y, s.r, s.r);
           }
           c.globalAlpha = 1;
@@ -134,33 +133,33 @@ const LABS = (() => {
           } else if (overGap) { st.ground = false; st.leftAt = now; }
 
           /* draw */
-          c.fillStyle = '#0a1024'; c.fillRect(0, 0, W, H);
-          c.strokeStyle = 'rgba(60,224,255,.10)'; c.lineWidth = 1 * d;
+          c.fillStyle = '#1e1b16'; c.fillRect(0, 0, W, H);
+          c.strokeStyle = 'rgba(246,241,230,.06)'; c.lineWidth = 1 * d;
           for (let i = 0; i < 8; i++) { const y = H * i / 8; c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke(); }
           /* platforms */
-          c.fillStyle = '#1d2b57';
+          c.fillStyle = '#3b352c';
           for (let x = -SEG * d; x < W + SEG * d; x += 4 * d) {
             const wx = (st.scroll + x) / d;
             if (!onGap(wx)) c.fillRect(x, GY, 4 * d + 1, H - GY);
           }
-          c.fillStyle = '#3ce0ff';
+          c.fillStyle = '#f0a33b';
           for (let x = -SEG * d; x < W + SEG * d; x += 4 * d) {
             const wx = (st.scroll + x) / d;
             if (!onGap(wx)) c.fillRect(x, GY, 4 * d + 1, 3 * d);
           }
           /* player */
           const py = GY + st.y - 26 * d;
-          c.fillStyle = st.flash > 0 ? '#ff5cc8' : '#ffd166';
+          c.fillStyle = st.flash > 0 ? '#e04b34' : '#e8c65c';
           c.fillRect(PX, py, 22 * d, 26 * d);
-          c.fillStyle = '#04101c';
+          c.fillStyle = '#1a1610';
           c.fillRect(PX + 5 * d, py + 8 * d, 4 * d, 4 * d);
           c.fillRect(PX + 13 * d, py + 8 * d, 4 * d, 4 * d);
           if (st.flash > 0) st.flash -= dt * 3;
           /* hud */
           c.font = `${12 * d}px ui-monospace,monospace`;
-          c.fillStyle = '#5ff2a8'; c.fillText(`CLEAR ${st.ok}`, 12 * d, 20 * d);
-          c.fillStyle = '#ff5cc8'; c.fillText(`MISS ${st.miss}`, 12 * d, 36 * d);
-          c.fillStyle = '#93a4cc';
+          c.fillStyle = '#6fb37a'; c.fillText(`CLEAR ${st.ok}`, 12 * d, 20 * d);
+          c.fillStyle = '#e04b34'; c.fillText(`MISS ${st.miss}`, 12 * d, 36 * d);
+          c.fillStyle = '#a89c88';
           c.fillText(cfg.lag ? `input lag ${cfg.lag}ms` : '', W - 130 * d, 20 * d);
         });
       },
@@ -314,23 +313,23 @@ const LABS = (() => {
         stop = loop((dt) => {
           const sec = +s.value, speed = (1 / sec) * 2.2;
           ang += dt * speed; if (ang > Math.PI * 2) { ang -= Math.PI * 2; laps++; }
-          c.fillStyle = '#060a16'; c.fillRect(0, 0, W, H);
-          c.strokeStyle = 'rgba(60,224,255,.35)'; c.lineWidth = 2 * d;
+          c.fillStyle = '#191610'; c.fillRect(0, 0, W, H);
+          c.strokeStyle = 'rgba(240,163,59,.4)'; c.lineWidth = 2 * d;
           c.beginPath(); c.arc(W / 2, H / 2, R, 0, Math.PI * 2); c.stroke();
           c.font = `${14 * d}px sans-serif`; c.textAlign = 'center';
           NODES.forEach((n, i) => {
             const a = -Math.PI / 2 + i * Math.PI * 2 / 3;
             const x = W / 2 + Math.cos(a) * R, y = H / 2 + Math.sin(a) * R;
-            c.fillStyle = '#121a38'; c.beginPath(); c.arc(x, y, 26 * d, 0, 7); c.fill();
-            c.strokeStyle = i === 2 ? '#ffd166' : '#3ce0ff'; c.stroke();
-            c.fillStyle = i === 2 ? '#ffd166' : '#eaf1ff'; c.fillText(n, x, y + 5 * d);
+            c.fillStyle = '#2a2620'; c.beginPath(); c.arc(x, y, 26 * d, 0, 7); c.fill();
+            c.strokeStyle = i === 2 ? '#e8c65c' : '#f0a33b'; c.stroke();
+            c.fillStyle = i === 2 ? '#e8c65c' : '#f6f1e6'; c.fillText(n, x, y + 5 * d);
           });
           const a = -Math.PI / 2 + ang;
           const px = W / 2 + Math.cos(a) * R, py = H / 2 + Math.sin(a) * R;
-          c.fillStyle = '#ff5cc8'; c.beginPath(); c.arc(px, py, 8 * d, 0, 7); c.fill();
-          c.fillStyle = '#5ff2a8'; c.font = `${13 * d}px ui-monospace,monospace`;
+          c.fillStyle = '#e04b34'; c.beginPath(); c.arc(px, py, 8 * d, 0, 7); c.fill();
+          c.fillStyle = '#6fb37a'; c.font = `${13 * d}px ui-monospace,monospace`;
           c.fillText(`試行回数 ${laps}`, W / 2, H / 2 + 5 * d);
-          c.fillStyle = '#93a4cc'; c.font = `${11 * d}px sans-serif`;
+          c.fillStyle = '#a89c88'; c.font = `${11 * d}px sans-serif`;
           c.fillText('AIが安くするのは Try', W / 2, H - 14 * d);
           c.textAlign = 'left';
         });
@@ -387,7 +386,7 @@ const LABS = (() => {
       <p><span class="hl">Work independently - do not ask me to make any further design decisions.</span> Make sure the game is fun, a little surprising, has good raccoon heist vibes, and is visually pleasing.</p>
       <p><span class="hl">Commit and push as often as possible</span> so I can preview your work - start with an index.html that presents a title screen, then build from there.</p>
       <p>Append to a notes.md file as you work.</p>
-      <p style="color:#93a4cc;font-size:.9em">＋ 参考画像2枚だけ。以降のやり取りは無し。</p>`;
+      <p style="color:#a89c88;font-size:.9em">＋ 参考画像2枚だけ。以降のやり取りは無し。</p>`;
     $('#case-stats').innerHTML = [
       ['約45分', '遊べる状態まで'], ['17', 'コミット'], ['0個', '音声ファイル（音は全部コード生成）']
     ].map(([a, b]) => `<div class="stat"><b>${a}</b><small>${b}</small></div>`).join('');
@@ -430,19 +429,19 @@ const LABS = (() => {
       'ロボ': {
         code: `<span class="cm">// 「低ポリのロボを作って」→ AIが書く形状コード</span>
 const g = new THREE.Group();
-box(1.2,1.4,.9, 0,1.6,0, <span class="st">0x8fa6d8</span>);   <span class="cm">// 胴</span>
-box(.9,.8,.85, 0,2.7,0, <span class="st">0xdfe8ff</span>);   <span class="cm">// 頭</span>
-box(.18,.18,.1, ±.22,2.8,.45, <span class="st">0x3ce0ff</span>); <span class="cm">// 目</span>
-box(.3,1.1,.3, ±.85,1.6,0, <span class="st">0x6d7ea8</span>);  <span class="cm">// 腕</span>
-box(.35,.9,.35, ±.35,.45,0, <span class="st">0x6d7ea8</span>);  <span class="cm">// 脚</span>
-cyl(.06,.5, 0,3.3,0, <span class="st">0xff5cc8</span>);      <span class="cm">// アンテナ</span>`,
+box(1.2,1.4,.9, 0,1.6,0, <span class="st">0xd8c8a8</span>);   <span class="cm">// 胴</span>
+box(.9,.8,.85, 0,2.7,0, <span class="st">0xf6f1e6</span>);   <span class="cm">// 頭</span>
+box(.18,.18,.1, ±.22,2.8,.45, <span class="st">0xf0a33b</span>); <span class="cm">// 目</span>
+box(.3,1.1,.3, ±.85,1.6,0, <span class="st">0x8d8272</span>);  <span class="cm">// 腕</span>
+box(.35,.9,.35, ±.35,.45,0, <span class="st">0x8d8272</span>);  <span class="cm">// 脚</span>
+cyl(.06,.5, 0,3.3,0, <span class="st">0xe04b34</span>);      <span class="cm">// アンテナ</span>`,
         build(T, add) {
-          add('box', [1.2, 1.4, .9], [0, 1.6, 0], 0x8fa6d8);
-          add('box', [.9, .8, .85], [0, 2.7, 0], 0xdfe8ff);
-          [-.22, .22].forEach(x => add('box', [.18, .18, .1], [x, 2.8, .45], 0x3ce0ff, true));
-          [-.85, .85].forEach(x => add('box', [.3, 1.1, .3], [x, 1.6, 0], 0x6d7ea8));
-          [-.35, .35].forEach(x => add('box', [.35, .9, .35], [x, .45, 0], 0x6d7ea8));
-          add('cyl', [.06, .5], [0, 3.3, 0], 0xff5cc8, true);
+          add('box', [1.2, 1.4, .9], [0, 1.6, 0], 0xd8c8a8);
+          add('box', [.9, .8, .85], [0, 2.7, 0], 0xf6f1e6);
+          [-.22, .22].forEach(x => add('box', [.18, .18, .1], [x, 2.8, .45], 0xf0a33b, true));
+          [-.85, .85].forEach(x => add('box', [.3, 1.1, .3], [x, 1.6, 0], 0x8d8272));
+          [-.35, .35].forEach(x => add('box', [.35, .9, .35], [x, .45, 0], 0x8d8272));
+          add('cyl', [.06, .5], [0, 3.3, 0], 0xe04b34, true);
         }
       },
       'アライグマ': {
@@ -467,14 +466,14 @@ for (i=0;i&lt;5;i++) box(.3,.3,.3, 0,.9+i*.12,-1-i*.25,
         code: `<span class="cm">// 繰り返しはループで生成（手で並べない）</span>
 for (let i=0;i&lt;7;i++)
   box(2-i*.22, .3, 2-i*.22, 0, i*.32, 0,
-      <span class="st">0x2b3a63</span>);            <span class="cm">// 積み上げる</span>
+      <span class="st">0x3b352c</span>);            <span class="cm">// 積み上げる</span>
 cyl(.12,.7, 0,2.6,0, <span class="st">0x8b5a2b</span>);  <span class="cm">// 棒</span>
-sphere(.28, 0,3.1,0, <span class="st">0xffd166</span>);  <span class="cm">// 炎</span>
+sphere(.28, 0,3.1,0, <span class="st">0xe8c65c</span>);  <span class="cm">// 炎</span>
 light(<span class="st">0xffb347</span>, 0,3.1,0);        <span class="cm">// 光らせる</span>`,
         build(T, add) {
-          for (let i = 0; i < 7; i++) add('box', [2 - i * .22, .3, 2 - i * .22], [0, i * .32, 0], 0x2b3a63);
+          for (let i = 0; i < 7; i++) add('box', [2 - i * .22, .3, 2 - i * .22], [0, i * .32, 0], 0x3b352c);
           add('cyl', [.12, .7], [0, 2.6, 0], 0x8b5a2b);
-          add('sphere', [.28], [0, 3.1, 0], 0xffd166, true);
+          add('sphere', [.28], [0, 3.1, 0], 0xe8c65c, true);
         }
       },
     };
@@ -505,9 +504,9 @@ light(<span class="st">0xffb347</span>, 0,3.1,0);        <span class="cm">// 光
           scene = new THREE.Scene();
           cam = new THREE.PerspectiveCamera(42, 1, .1, 100);
           cam.position.set(0, 2.4, 6); cam.lookAt(0, 1.3, 0);
-          scene.add(new THREE.HemisphereLight(0x6ea8ff, 0x101830, 1.1));
+          scene.add(new THREE.HemisphereLight(0xd8c8a8, 0x15130f, 1.1));
           const dl = new THREE.DirectionalLight(0xffffff, 1.3); dl.position.set(3, 6, 4); scene.add(dl);
-          const pl = new THREE.PointLight(0xff5cc8, 1.4, 14); pl.position.set(-3, 2, 3); scene.add(pl);
+          const pl = new THREE.PointLight(0xe04b34, 1.4, 14); pl.position.set(-3, 2, 3); scene.add(pl);
           const btns = $('#model-btns');
           btns.innerHTML = Object.keys(MODELS).map((k, i) => `<button class="${i ? '' : 'on'}">${k}</button>`).join('');
           btns.querySelectorAll('button').forEach(b => b.onclick = () => {

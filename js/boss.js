@@ -16,10 +16,10 @@ const BOSS = (() => {
   function gridTexture() { // ponytail: procedural, so the deck needs no image files
     const c = document.createElement('canvas'); c.width = c.height = 256;
     const g = c.getContext('2d');
-    g.fillStyle = '#0a1024'; g.fillRect(0, 0, 256, 256);
-    g.strokeStyle = 'rgba(60,224,255,.30)'; g.lineWidth = 2;
+    g.fillStyle = '#1e1b16'; g.fillRect(0, 0, 256, 256);
+    g.strokeStyle = 'rgba(240,163,59,.35)'; g.lineWidth = 2;
     g.strokeRect(0, 0, 256, 256);
-    g.strokeStyle = 'rgba(60,224,255,.10)';
+    g.strokeStyle = 'rgba(246,241,230,.06)';
     for (let i = 32; i < 256; i += 32) {
       g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 256); g.moveTo(0, i); g.lineTo(256, i); g.stroke();
     }
@@ -35,14 +35,14 @@ const BOSS = (() => {
 
   function makeDev() {
     const g = new THREE.Group();
-    const body = new THREE.Mesh(new THREE.BoxGeometry(1, 1.2, .8), mat(0x3ce0ff, 0x1b6d80, .5));
+    const body = new THREE.Mesh(new THREE.BoxGeometry(1, 1.2, .8), mat(0xf0a33b, 0x7a4c14, .5));
     body.position.y = 1; g.add(body);
     const head = new THREE.Mesh(new THREE.BoxGeometry(.8, .7, .75), mat(0xffe0bd));
     head.position.y = 2; g.add(head);
-    const cap = new THREE.Mesh(new THREE.BoxGeometry(.9, .25, .85), mat(0xff5cc8));
+    const cap = new THREE.Mesh(new THREE.BoxGeometry(.9, .25, .85), mat(0xe04b34));
     cap.position.y = 2.42; g.add(cap);
     [-.35, .35].forEach(x => {
-      const l = new THREE.Mesh(new THREE.BoxGeometry(.28, .8, .28), mat(0x2b3a63));
+      const l = new THREE.Mesh(new THREE.BoxGeometry(.28, .8, .28), mat(0x3b352c));
       l.position.set(x, .4, 0); g.add(l);
     });
     g.userData.stack = new THREE.Group(); g.userData.stack.position.y = 1.8;
@@ -51,20 +51,20 @@ const BOSS = (() => {
   }
 
   function makeFeature() {
-    const m = new THREE.Mesh(new THREE.OctahedronGeometry(.45), mat(0xffd166, 0xffd166, .8));
+    const m = new THREE.Mesh(new THREE.OctahedronGeometry(.45), mat(0xe8c65c, 0xe8c65c, .8));
     m.position.y = .9; return m;
   }
 
   function makeBug() {
     const g = new THREE.Group();
-    const b = new THREE.Mesh(new THREE.BoxGeometry(1, .7, 1.3), mat(0x2a1030, 0xff2d8a, .55));
+    const b = new THREE.Mesh(new THREE.BoxGeometry(1, .7, 1.3), mat(0x2b1512, 0xe04b34, .55));
     b.position.y = .6; g.add(b);
     [-.4, .4].forEach(x => [-.4, .4].forEach(z => {
-      const l = new THREE.Mesh(new THREE.BoxGeometry(.16, .5, .16), mat(0x59125f));
+      const l = new THREE.Mesh(new THREE.BoxGeometry(.16, .5, .16), mat(0x5a2018));
       l.position.set(x * 1.2, .3, z); g.add(l);
     }));
     [-.25, .25].forEach(x => {
-      const e = new THREE.Mesh(new THREE.BoxGeometry(.16, .16, .1), mat(0xff5cc8, 0xff5cc8, 1));
+      const e = new THREE.Mesh(new THREE.BoxGeometry(.16, .16, .1), mat(0xe04b34, 0xe04b34, 1));
       e.position.set(x, .8, .68); g.add(e);
     });
     return g;
@@ -74,11 +74,11 @@ const BOSS = (() => {
     ren = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
     ren.setPixelRatio(Math.min(2, devicePixelRatio || 1));
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x04060f);
-    scene.fog = new THREE.Fog(0x04060f, 26, 62);
+    scene.background = new THREE.Color(0x15130f);
+    scene.fog = new THREE.Fog(0x15130f, 26, 62);
     cam = new THREE.PerspectiveCamera(52, 1, .1, 220);
 
-    scene.add(new THREE.HemisphereLight(0x6ea8ff, 0x0a0f20, .9));
+    scene.add(new THREE.HemisphereLight(0xd8c8a8, 0x15130f, .9));
     const dl = new THREE.DirectionalLight(0xffffff, 1.1); dl.position.set(12, 22, 8); scene.add(dl);
 
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(R * 2, R * 2),
@@ -87,7 +87,7 @@ const BOSS = (() => {
 
     /* walls */
     for (let i = 0; i < 4; i++) {
-      const w = new THREE.Mesh(new THREE.BoxGeometry(R * 2, 2, .6), mat(0x1a2450, 0x3ce0ff, .12));
+      const w = new THREE.Mesh(new THREE.BoxGeometry(R * 2, 2, .6), mat(0x2a2620, 0xf0a33b, .12));
       w.position.set(i < 2 ? 0 : (i === 2 ? -R : R), 1, i < 2 ? (i ? -R : R) : 0);
       if (i >= 2) w.rotation.y = Math.PI / 2;
       scene.add(w);
@@ -95,14 +95,14 @@ const BOSS = (() => {
     /* obstacles: server racks */
     for (let i = 0; i < 12; i++) {
       const h = rnd(2, 4.5);
-      const m = new THREE.Mesh(new THREE.BoxGeometry(rnd(1.4, 3), h, rnd(1.4, 3)), mat(0x141d3c, 0x2a63ff, .1));
+      const m = new THREE.Mesh(new THREE.BoxGeometry(rnd(1.4, 3), h, rnd(1.4, 3)), mat(0x2a2620, 0xf0a33b, .1));
       const [x, z] = spot(); m.position.set(x, h / 2, z); scene.add(m);
     }
     /* release box */
     box3 = new THREE.Group();
-    const crate = new THREE.Mesh(new THREE.BoxGeometry(4, 2.4, 4), mat(0x5ff2a8, 0x1d7a4d, .45));
+    const crate = new THREE.Mesh(new THREE.BoxGeometry(4, 2.4, 4), mat(0x6fb37a, 0x2f5c39, .45));
     crate.position.y = 1.2; box3.add(crate);
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(3.2, .12, 6, 28), mat(0x5ff2a8, 0x5ff2a8, 1));
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(3.2, .12, 6, 28), mat(0x6fb37a, 0x6fb37a, 1));
     ring.rotation.x = Math.PI / 2; ring.position.y = .1; box3.add(ring);
     box3.position.set(0, 0, R - 6); scene.add(box3);
 
@@ -126,7 +126,7 @@ const BOSS = (() => {
   function stack() {
     const s = player.userData.stack; s.clear();
     for (let i = 0; i < st.carry; i++) {
-      const m = new THREE.Mesh(new THREE.OctahedronGeometry(.26), mat(0xffd166, 0xffd166, .9));
+      const m = new THREE.Mesh(new THREE.OctahedronGeometry(.26), mat(0xe8c65c, 0xe8c65c, .9));
       m.position.set(0, i * .45, -.2); s.add(m);
     }
   }
