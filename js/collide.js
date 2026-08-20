@@ -85,8 +85,8 @@ const COLLIDE = (() => {
     const speed = $('#s-colspeed');
     const note = $('#col-note');
     const NOTE = {
-      discrete: '離散判定：<b>その瞬間に重なっているか</b>だけを見る。1フレームの移動距離が壁の厚さを超えると、壁の手前と奥にワープして<b>すり抜ける</b>。これが「壁抜けバグ」。',
-      swept: '連続判定（CCD）：<b>前フレームから今フレームまでの線を</b>壁と交差判定する。速度をいくら上げてもすり抜けない。代わりに計算量は増える。',
+      discrete: '離散判定 <span class="en">Discrete / Overlap Test</span>：<b>その瞬間に重なっているか</b>だけを見る。1フレームの移動距離が壁の厚さを超えると、壁の手前と奥にワープして<b>すり抜ける</b>。これが「壁抜けバグ」＝ <span class="en">tunnelling</span>。対策は CCD / 固定タイムステップ <span class="en">fixed timestep</span> / 判定を厚くする。',
+      swept: '連続判定 <span class="en">Continuous Collision Detection (CCD)</span>：<b>前フレームから今フレームまでの線を</b>壁と交差判定する。速度をいくら上げてもすり抜けない。代わりに計算量は増える。',
     };
     speed.oninput = () => {
       st.v = +speed.value; $('#o-colspeed').textContent = st.v;

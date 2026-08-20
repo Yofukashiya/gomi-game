@@ -66,13 +66,13 @@
   <h2 class="stage-h">ゲーム＝<span class="grad">ルール × 操作 × 世界観 × 反応</span> <small>カードを押すと「無い場合」が見える</small></h2>
   <div class="elem-grid" id="elem-grid">
     <button class="elem" data-lost="ルールが無いと → ただの<b>おもちゃ</b>。触ると動くけど、勝ちも負けも上達も無い。">
-      <span class="ei">📏</span><h3>ルール</h3><p>勝敗・制限・報酬</p></button>
+      <span class="ei">📏</span><h3>ルール <span class="en">Rules</span></h3><p>勝敗・制限・報酬</p></button>
     <button class="elem" data-lost="操作が無いと → それは<b>映画</b>。見るだけ。面白くても『自分がやった』にならない。">
-      <span class="ei">🕹</span><h3>操作</h3><p>入力・自由度</p></button>
+      <span class="ei">🕹</span><h3>操作 <span class="en">Controls</span></h3><p>入力・自由度</p></button>
     <button class="elem" data-lost="世界観が無いと → <b>無味の練習問題</b>。数字は動くが、続ける理由が生まれない。">
-      <span class="ei">🌍</span><h3>世界観</h3><p>設定・見た目・音</p></button>
+      <span class="ei">🌍</span><h3>世界観 <span class="en">Theme</span></h3><p>設定・見た目・音</p></button>
     <button class="elem" data-lost="反応が無いと → <b>壊れた機械</b>。押しても手応えが無い。ゲームで一番嫌われる。">
-      <span class="ei">⚡</span><h3>反応</h3><p>手応え・演出・音</p></button>
+      <span class="ei">⚡</span><h3>反応 <span class="en">Feedback</span></h3><p>手応え・演出・音</p></button>
   </div>
   <p class="reveal" id="elem-out">プレイヤーが「自分で動かしている」と感じられる状態を作るのが、ゲーム制作。</p>
 </section>
@@ -82,12 +82,12 @@
   data-note="6職種をクリック。仕事内容だけでなく『いないとどうなるか』を見せるのがポイント。個人開発は1人で全部やる＝AIが一番効く場所でもある、と後半への伏線を張る。">
   <h2 class="stage-h">パーティ編成 <small>ゲーム制作はチーム戦。カードを選択</small></h2>
   <div class="party" id="party">
-    <button class="pc" data-role="デザイナー" data-icon="🎲" data-job="遊びのルール・難易度・報酬・ステージ構成を決める。「何をすると気持ちいいか」の責任者。" data-none="いないと → 機能は動くのに面白くない。「で、何が楽しいの？」が起きる。"><span>🎲</span>ゲームデザイン</button>
-    <button class="pc" data-role="プログラマ" data-icon="⌨️" data-job="ルールを動くシステムに変える。入力・物理・当たり判定・敵AI・セーブ・通信。" data-none="いないと → 企画書のまま。誰も遊べない。"><span>⌨️</span>プログラム</button>
-    <button class="pc" data-role="アーティスト" data-icon="🎨" data-job="キャラ・背景・エフェクト・アニメ。見た目は飾りでなく<b>説明書</b>（危険は赤い、拾える物は光る）。" data-none="いないと → 白い箱が動くだけ。状況が読めない。"><span>🎨</span>アート</button>
-    <button class="pc" data-role="サウンド" data-icon="🔊" data-job="効果音・BGM・環境音。攻撃音、足音、勝利BGM。感情のスイッチ。" data-none="いないと → 驚くほど寂しい。手応えが半分消える。"><span>🔊</span>サウンド</button>
-    <button class="pc" data-role="UI/UX" data-icon="🧭" data-job="HP・スコア・メニュー・チュートリアル。情報を一瞬で伝える設計。" data-none="いないと → 操作方法が分からず、最初の1分で離脱。"><span>🧭</span>UI / UX</button>
-    <button class="pc" data-role="QA / PM" data-icon="🐛" data-job="バグ・難易度・操作感の検証と、スケジュール・優先順位の管理。" data-none="いないと → 壁抜け・進行不能で遊べない。あるいは永遠に完成しない。"><span>🐛</span>QA / PM</button>
+    <button class="pc" data-role="デザイナー" data-icon="🎲" data-job="遊びのルール・難易度・報酬・ステージ構成を決める。「何をすると気持ちいいか」の責任者。" data-none="いないと → 機能は動くのに面白くない。「で、何が楽しいの？」が起きる。"><span>🎲</span>ゲームデザイン<i class="en">Game Design</i></button>
+    <button class="pc" data-role="プログラマ" data-icon="⌨️" data-job="ルールを動くシステムに変える。入力・物理・当たり判定・敵AI・セーブ・通信。" data-none="いないと → 企画書のまま。誰も遊べない。"><span>⌨️</span>プログラム<i class="en">Programming</i></button>
+    <button class="pc" data-role="アーティスト" data-icon="🎨" data-job="キャラ・背景・エフェクト・アニメ。見た目は飾りでなく<b>説明書</b>（危険は赤い、拾える物は光る）。" data-none="いないと → 白い箱が動くだけ。状況が読めない。"><span>🎨</span>アート<i class="en">Art</i></button>
+    <button class="pc" data-role="サウンド" data-icon="🔊" data-job="効果音・BGM・環境音。攻撃音、足音、勝利BGM。感情のスイッチ。" data-none="いないと → 驚くほど寂しい。手応えが半分消える。"><span>🔊</span>サウンド<i class="en">Sound</i></button>
+    <button class="pc" data-role="UI/UX" data-icon="🧭" data-job="HP・スコア・メニュー・チュートリアル。情報を一瞬で伝える設計。" data-none="いないと → 操作方法が分からず、最初の1分で離脱。"><span>🧭</span>UI / UX<i class="en">Usability</i></button>
+    <button class="pc" data-role="QA / PM" data-icon="🐛" data-job="バグ・難易度・操作感の検証と、スケジュール・優先順位の管理。" data-none="いないと → 壁抜け・進行不能で遊べない。あるいは永遠に完成しない。"><span>🐛</span>QA / PM<i class="en">Test & Management</i></button>
   </div>
   <div class="pane" id="party-pane">
     <p class="dim">↑ カードを押すと、その職種の仕事と「いない場合」が出ます。</p>
@@ -98,7 +98,7 @@
 <!-- ══════════ 04 JUMP LAB ★ ══════════ -->
 <section class="stage lab-stage" data-world="WORLD 1" data-title="★ ジャンプ調整ラボ"
   data-note="今日の山場①。まず「気持ちいい」プリセットで自分が数回ジャンプして見せる。次に『モッサリ』『月面』『入力遅延100ms』を順に押して、同じコードでも別ゲームになることを体感させる。可能なら誰かにキーボードを渡す。ここで言うこと：面白さは仕様書では決まらず、数値の調整で決まる。だからAIに全部任せられない。">
-  <h2 class="stage-h">★ ジャンプ調整ラボ <small>「気持ちいい」は数値でできている。<kbd>Space</kbd> でジャンプ</small></h2>
+  <h2 class="stage-h">★ ジャンプ調整ラボ <small>「気持ちいい」＝ <span class="en">Game Feel / Juice</span> は数値でできている。<kbd>Space</kbd> でジャンプ</small></h2>
   <div class="lab">
     <div class="lab-view">
       <canvas id="jump-canvas" width="720" height="300"></canvas>
@@ -112,11 +112,11 @@
         <button data-p="laggy">😩 遅延100ms</button>
         <button data-p="raw">🤖 素の実装</button>
       </div>
-      <label>ジャンプ力 <output id="o-jump"></output><input type="range" id="s-jump" min="4" max="20" step="0.5"></label>
-      <label>重力 <output id="o-grav"></output><input type="range" id="s-grav" min="20" max="140" step="1"></label>
-      <label>入力遅延 (ms) <output id="o-lag"></output><input type="range" id="s-lag" min="0" max="150" step="5"></label>
-      <label>コヨーテ時間 (ms) <output id="o-coy"></output><input type="range" id="s-coy" min="0" max="200" step="10"></label>
-      <label>先行入力バッファ (ms) <output id="o-buf"></output><input type="range" id="s-buf" min="0" max="250" step="10"></label>
+      <label>ジャンプ力 <span class="en">Jump Force</span> <output id="o-jump"></output><input type="range" id="s-jump" min="4" max="20" step="0.5"></label>
+      <label>重力 <span class="en">Gravity</span> <output id="o-grav"></output><input type="range" id="s-grav" min="20" max="140" step="1"></label>
+      <label>入力遅延 <span class="en">Input Lag</span> (ms) <output id="o-lag"></output><input type="range" id="s-lag" min="0" max="150" step="5"></label>
+      <label>コヨーテ時間 <span class="en">Coyote Time</span> (ms) <output id="o-coy"></output><input type="range" id="s-coy" min="0" max="200" step="10"></label>
+      <label>先行入力バッファ <span class="en">Input Buffering</span> (ms) <output id="o-buf"></output><input type="range" id="s-buf" min="0" max="250" step="10"></label>
       <p class="lab-note" id="jump-note"></p>
     </div>
   </div>
@@ -128,20 +128,20 @@
   <h2 class="stage-h">さっきの手応えは、この数行 <small>行をクリックすると解説</small></h2>
   <div class="codewrap">
 <pre class="code" id="jump-code"><code><span class="cl" data-x="正しいけど気持ちよくない素の実装。地面にいる瞬間にボタンが押されている必要がある。">if (grounded &amp;&amp; pressed) jump();          <span class="cm">// 素の実装</span></span>
-<span class="cl" data-x="コヨーテ時間：崖から落ちた直後の約0.1秒もジャンプを許す。プレイヤーの体感では「押したのに跳ばない」バグが消える。">if (timeSinceLeftGround &lt; COYOTE) canJump = true;  <span class="cm">// 崖の許し</span></span>
-<span class="cl" data-x="先行入力バッファ：着地の少し前に押されたボタンを覚えておいて、着地した瞬間に消費する。連続ジャンプが繋がる。">if (pressedAgo &lt; BUFFER &amp;&amp; grounded) jump();       <span class="cm">// 早押しを覚える</span></span>
-<span class="cl" data-x="上昇中と下降中で重力を変える（下降を1.6倍など）。滞空が短く感じられて「重さ」が出る。マリオもこれ。">gravity = vy &gt; 0 ? G * 1.6 : G;                    <span class="cm">// 落下は速く</span></span>
-<span class="cl" data-x="音・アニメ・画面の揺れ。処理としては1行だが、手応えの体感はここで半分決まる。">sfx('jump'); anim('jump'); squash(0.8);            <span class="cm">// 見た目と音</span></span>
+<span class="cl" data-x="コヨーテ時間 (Coyote Time)：崖から落ちた直後の約0.1秒もジャンプを許す。プレイヤーの体感では「押したのに跳ばない」バグが消える。">if (timeSinceLeftGround &lt; COYOTE) canJump = true;  <span class="cm">// 崖の許し</span></span>
+<span class="cl" data-x="先行入力バッファ (Input Buffering / Jump Buffer)：着地の少し前に押されたボタンを覚えておいて、着地した瞬間に消費する。連続ジャンプが繋がる。">if (pressedAgo &lt; BUFFER &amp;&amp; grounded) jump();       <span class="cm">// 早押しを覚える</span></span>
+<span class="cl" data-x="非対称重力 (Asymmetric Gravity)：上昇中と下降中で重力を変える（下降を1.6倍など）。滞空が短く感じられて「重さ」が出る。マリオもこれ。">gravity = vy &gt; 0 ? G * 1.6 : G;                    <span class="cm">// 落下は速く</span></span>
+<span class="cl" data-x="手応えの演出 (Game Feel / Juice)：音・アニメ・画面の揺れ。処理としては1行だが、手応えの体感はここで半分決まる。">sfx('jump'); anim('jump'); squash(0.8);            <span class="cm">// 見た目と音</span></span>
 </code></pre>
     <div class="pane" id="code-pane"><p class="dim">↑ 行を押すと、その1行が何を守っているか出ます。</p></div>
   </div>
-  <p class="foot">プログラムの仕事＝<b>ルールを「動くシステム」に変える</b>。正しく動く ≠ 気持ちいい。</p>
+  <p class="foot">プログラムの仕事＝<b>ルールを「動くシステム」に変える</b>。正しく動く ≠ 気持ちいい（<span class="en">correct ≠ good game feel</span>）。</p>
 </section>
 
 <!-- ══════════ 06 COLLISION LAB ★ ══════════ -->
 <section class="stage" data-world="WORLD 1" data-title="★ 当たり判定ラボ"
   data-note="壁抜けバグの正体を見せる。まず離散判定のまま速度スライダーを上げていくと、ある速度から球が壁をすり抜け始める（すり抜け回数が増える）。黄色い点は1フレームごとの位置で、点の間隔が壁の厚さを超えた瞬間に壁を飛び越えているのが見える。次に「連続判定」に切り替えると、同じ速度でもすり抜けない。QAが『たまに壁を抜ける』と報告するバグはこれ。対策は連続判定・固定タイムステップ・判定を厚くする。AIに実装させると離散判定で書いてくることが多い、という話にも繋げられる。">
-  <h2 class="stage-h">★ 当たり判定ラボ <small>「壁抜けバグ」はなぜ起きる？　速度を上げてみる</small></h2>
+  <h2 class="stage-h">★ 当たり判定ラボ <small>「壁抜けバグ」＝ <span class="en">Tunnelling</span> はなぜ起きる？　速度を上げてみる</small></h2>
   <div class="lab">
     <div class="lab-view">
       <div class="col-box"><canvas id="collide-canvas"></canvas></div>
@@ -149,13 +149,13 @@
     </div>
     <div class="lab-panel">
       <div class="presets" id="col-modes">
-        <button data-m="discrete" class="on">離散判定（毎フレーム重なり）</button>
-        <button data-m="swept">連続判定（線分で交差）</button>
+        <button data-m="discrete" class="on">離散判定 <span class="en">Discrete / Overlap Test</span></button>
+        <button data-m="swept">連続判定 <span class="en">Continuous · CCD / Swept Test</span></button>
       </div>
-      <label>速度 <output id="o-colspeed"></output><input type="range" id="s-colspeed" min="6" max="260" step="2"></label>
+      <label>速度 <span class="en">Velocity</span> <output id="o-colspeed"></output><input type="range" id="s-colspeed" min="6" max="260" step="2"></label>
       <div class="colstat">
-        <span>命中 <b id="col-hit">0</b></span>
-        <span>すり抜け <b id="col-pass">0</b></span>
+        <span>命中 Hit <b id="col-hit">0</b></span>
+        <span>すり抜け Tunnelling <b id="col-pass">0</b></span>
         <span>1フレームの移動 <b id="col-step">0</b> / 壁の厚さ 0.70</span>
       </div>
       <p class="lab-note" id="col-note"></p>
@@ -166,7 +166,7 @@
 <!-- ══════════ 06 PIPELINE ══════════ -->
 <section class="stage" data-world="WORLD 1" data-title="作る順番"
   data-note="ボタンで2つの進め方を比較。『大作から作る』は3ヶ月後に初めて遊べて、つまらなかったら全部やり直し。『小さく作る』は3日で遊べて、方向転換が安い。ゲーム制作は一方通行ではなく、プロトタイプから企画に戻る。初心者に一番伝えるべき点。">
-  <h2 class="stage-h">作る順番 <small>2つの進め方を比べる</small></h2>
+  <h2 class="stage-h">作る順番 <small>2つの進め方を比べる — <span class="en">Prototype-first vs Big-design-first</span></small></h2>
   <div class="pipe-tabs"><button class="on" data-pipe="small">🐣 小さく作る</button><button data-pipe="big">🏰 大作から作る</button></div>
   <div class="pipeline" id="pipeline"></div>
   <p class="reveal" id="pipe-out"></p>
@@ -246,13 +246,13 @@
   <h2 class="stage-h">AIが自分でテストして、自分のバグを見つけた <small>実例2件（raccoon-heist の作業ログより）</small></h2>
   <div class="bugs">
     <article class="bugcard">
-      <h3>🐛 スマホで主人公が見えない</h3>
+      <h3>🐛 スマホで主人公が見えない <span class="en">DPR bug</span></h3>
       <p class="how">Playwrightで 390×844 / DPR 2 のスマホを再現して発見。</p>
       <p><code>renderer.setSize()</code> の<b>後</b>に <code>canvas.style.cssText</code> を代入 → Three.jsが設定したwidth/heightを上書き。DPR≥2の実機だとcanvasが2倍サイズで描画され、<b>左上1/4しか見えない</b>。</p>
       <p class="fix">PCでは DPR 1 なので完全に再現しない。＝<b>人間の手動確認では見逃す</b>タイプ。</p>
     </article>
     <article class="bugcard">
-      <h3>🐛 「NIGHT 2 ➜」ボタンが押せない</h3>
+      <h3>🐛 「NIGHT 2 ➜」ボタンが押せない <span class="en">CSS class collision</span></h3>
       <p class="how">クリア→次ステージまでの通し操作を自動化して発見。</p>
       <p>勝利画面の星表示に付けた <code>class="stars"</code> が、タイトル画面の全画面 <code>.stars</code> のCSSと衝突。<b>透明な要素が画面全体を覆って</b>クリックを吸っていた。</p>
       <p class="fix">クラス名の衝突。レビューでもすり抜けやすい。</p>
@@ -326,10 +326,10 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
   data-note="4つの弱点と、線引き。特にゲームは長期開発なので、理解せずにコードを積むと後で直せなくなる。逆に、テスト観点の洗い出し・翻訳のたたき台・ボイラープレートは任せて良い。『何を作るか』と『何をAIに任せるか』を決める力が今後の差になる、で締める。">
   <h2 class="stage-h">AIの弱点と、線引き</h2>
   <div class="risks">
-    <article><span class="rn">01</span><h3>自信満々の誤り</h3><p>もっともらしく間違える。動くコードほど危ない。</p></article>
-    <article><span class="rn">02</span><h3>権利・ライセンス</h3><p>画像・音・コードの利用条件。商用は特に。</p></article>
-    <article><span class="rn">03</span><h3>一貫性</h3><p>キャラ・世界観・命名がバラける。STYLE前置きや規約で対策。</p></article>
-    <article><span class="rn">04</span><h3>技術的負債</h3><p>理解せず積むと、後から直せない山になる。</p></article>
+    <article><span class="rn">01</span><h3>自信満々の誤り <span class="en">Hallucination</span></h3><p>もっともらしく間違える。動くコードほど危ない。</p></article>
+    <article><span class="rn">02</span><h3>権利・ライセンス <span class="en">Licensing</span></h3><p>画像・音・コードの利用条件。商用は特に。</p></article>
+    <article><span class="rn">03</span><h3>一貫性 <span class="en">Consistency</span></h3><p>キャラ・世界観・命名がバラける。STYLE前置きや規約で対策。</p></article>
+    <article><span class="rn">04</span><h3>技術的負債 <span class="en">Technical Debt</span></h3><p>理解せず積むと、後から直せない山になる。</p></article>
   </div>
   <div class="line2">
     <div class="ok"><h3>👍 任せやすい</h3><ul><li>小さい機能の実装・下書き</li><li>エラー原因の説明、別案の提示</li><li>テスト観点の洗い出し・自動テスト</li><li>ローカライズ／文章のたたき台</li><li>素材のラフ・方向性の確認</li></ul></div>

@@ -496,3 +496,11 @@ body::before{display:none}            /* drop the full-screen scrim */
 .lab-panel label,.loopctl label{margin:.75em 0}
 .lab-note{min-height:2.9em;margin:.7em 0 0}
 .presets{margin-bottom:.6em}
+
+/* English gloss next to Japanese jargon */
+.en{font-family:var(--mono);font-size:.72em;font-weight:400;font-style:normal;
+  letter-spacing:.02em;color:var(--cy);opacity:.85;white-space:nowrap}
+h3 .en,h2 .en{display:inline-block}
+.pc .en{display:block;font-size:.62em;color:var(--dim);white-space:normal;line-height:1.3;margin-top:.1em}
+.presets .en,.colstat .en{color:inherit;opacity:.7}
+.lab-note .en,#col-note .en{white-space:normal}
