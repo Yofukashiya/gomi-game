@@ -414,7 +414,7 @@ const LABS = (() => {
       playing = setInterval(() => {
         if (i >= rows.length) { clearInterval(playing); return; }
         rows[i].classList.add('in');
-        box.scrollTop = Math.max(0, rows[i].offsetTop - box.clientHeight + 40);
+        box.scrollTop = box.scrollHeight;   /* keep the newest line in view */
         i++;
       }, 520);
       D.expOnce('case', 10, '実例タイムライン');

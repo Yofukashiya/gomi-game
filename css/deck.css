@@ -213,7 +213,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
 .case{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
 .plabel{font-family:var(--mono);font-size:.74rem;color:var(--cy);letter-spacing:.1em;margin:0 0 .5em}
 .case blockquote{margin:0;background:#060a16;border:1px solid var(--line);border-left:4px solid var(--cy);
-  border-radius:14px;padding:1em 1.1em;font-size:1em;line-height:1.75}
+  border-radius:14px;padding:1em 1.1em;font-size:1em;line-height:1.72;max-height:56vh;overflow:auto}
 .case blockquote p{margin:.5em 0}
 .case blockquote .hl{background:rgba(255,209,102,.16);border-radius:4px;padding:0 .2em;color:#fff}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
@@ -221,7 +221,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
 .stat b{display:block;font-family:var(--mono);font-size:1.5rem;color:var(--yl);line-height:1.1}
 .stat small{color:var(--dim);font-size:.76em}
 .timeline{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:.8em 1em;
-  height:11.5em;overflow:hidden;position:relative}
+  height:13em;overflow-y:auto;position:relative}
 .tl{display:flex;gap:.7em;font-size:.95em;opacity:0;transform:translateX(-10px);transition:.4s}
 .tl.in{opacity:1;transform:none}
 .tl time{font-family:var(--mono);color:var(--cy);flex:0 0 4.2em}
