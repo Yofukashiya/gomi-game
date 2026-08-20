@@ -2,3 +2,5 @@
 .env.local
 .playwright-mcp/
 .DS_Store
+supabase/.temp/
+supabase/.branches/
