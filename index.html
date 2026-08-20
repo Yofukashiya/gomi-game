@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="css/deck.css">
 </head>
 <body>
+<canvas id="bg3d"></canvas>
+<div class="levelcard" id="levelcard"><i></i><b></b></div>
 
 <!-- ══════════ HUD ══════════ -->
 <header class="hud">
@@ -360,6 +362,7 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
 <button class="navbtn next" id="nav-next" aria-label="次へ">›</button>
 
 <script src="vendor/three.min.js"></script>
+<script src="js/world3d.js"></script>
 <script src="js/deck.js"></script>
 <script src="js/labs.js"></script>
 <script src="js/boss.js"></script>

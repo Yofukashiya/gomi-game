@@ -1,6 +1,6 @@
 /* deck engine: navigation, HUD, presenter notes, overview, EXP */
 const DECK = (() => {
-  const S = { i: 0, stages: [], exp: 0, hooks: [], seen: new Set() };
+  const S = { i: 0, stages: [], exp: 0, lv: 1, world: null, hooks: [], seen: new Set() };
   const $ = (s) => document.querySelector(s);
 
   /* stage hooks: DECK.on('ジャンプ', {enter(el), leave(el)}) */
@@ -8,6 +8,24 @@ const DECK = (() => {
   function hooksFor(el) {
     const t = el.dataset.title || '';
     return S.hooks.filter(h => t.includes(h.match)).map(h => h.fns);
+  }
+
+  /* game-style stage announcement on every move; bigger when the WORLD changes */
+  function levelCard(to, n) {
+    const el = $('#levelcard'); if (!el) return;
+    const w = to.dataset.world || '';
+    const big = w !== S.world; S.world = w;
+    el.querySelector('i').textContent = big ? w : `STAGE ${String(n).padStart(2, '0')}`;
+    el.querySelector('b').textContent = to.dataset.title || '';
+    el.classList.remove('on', 'big');
+    void el.offsetWidth;                       /* restart the CSS animation */
+    el.classList.add('on'); if (big) el.classList.add('big');
+  }
+
+  function levelUp() {
+    const lv = 1 + Math.floor(S.exp / 60);
+    if (lv > S.lv) { S.lv = lv; toast(`⬆ LEVEL UP  Lv.${lv}`); document.body.classList.add('lvflash');
+      setTimeout(() => document.body.classList.remove('lvflash'), 700); }
   }
 
   function toast(msg) {
@@ -20,6 +38,7 @@ const DECK = (() => {
     S.exp += n;
     $('#hud-exp').textContent = S.exp;
     toast(`+${n} EXP　${why || ''}`);
+    levelUp();
   }
   /* award once per key — keeps the HUD honest when a stage is revisited */
   function expOnce(key, n, why) { if (!S.seen.has(key)) { S.seen.add(key); exp(n, why); } }
@@ -38,6 +57,11 @@ const DECK = (() => {
     $('#hud-fill').style.width = (n / (S.stages.length - 1) * 100) + '%';
     $('#notes-body').textContent = to.dataset.note || '（メモなし）';
     document.querySelectorAll('.ov').forEach((b, k) => b.classList.toggle('cur', k === n));
+    if (window.WORLD3D) {
+      WORLD3D.setWorld(to.dataset.world);
+      WORLD3D.pause(to.classList.contains('boss-stage'));   /* mini-game owns the GPU */
+    }
+    levelCard(to, n);
     hooksFor(to).forEach(f => f.enter && f.enter(to));
     to.scrollTop = 0;
   }
@@ -82,6 +106,7 @@ const DECK = (() => {
     });
 
     $('#press-start').onclick = () => go(1, 1);
+    if (window.WORLD3D) WORLD3D.init();
     LABS.install(DECK);
     BOSS.install(DECK);
     go(Math.max(0, Math.min(S.stages.length - 1, parseInt(location.hash.slice(1), 10) || 0)));
