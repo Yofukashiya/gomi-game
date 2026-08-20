@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GAME DEV QUEST — ゲーム制作とAI活用</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="stylesheet" href="css/deck.css">
+</head>
+<body>
+
+<!-- ══════════ HUD ══════════ -->
+<header class="hud">
+  <div class="hud-l">
+    <span class="logo">🎮 GAME DEV QUEST</span>
+    <span class="chip" id="hud-world">TITLE</span>
+  </div>
+  <div class="hud-r">
+    <span class="chip exp">⭐ EXP <b id="hud-exp">0</b></span>
+    <span class="chip" id="hud-stage">0 / 0</span>
+    <button class="iconbtn" id="btn-map" title="ステージ一覧 (G)">☰</button>
+    <button class="iconbtn" id="btn-notes" title="発表メモ (N)">📝</button>
+  </div>
+  <div class="hud-bar"><i id="hud-fill"></i></div>
+</header>
+
+<main id="stages">
+
+<!-- ══════════ 00 TITLE ══════════ -->
+<section class="stage title-stage" data-world="TITLE" data-title="タイトル"
+  data-note="つかみ。『今日の資料はスライドじゃなくてゲームです』と言ってEnterを押す。矢印キーで進む／Nで発表メモ／Gでステージ一覧、と最初に宣言しておくと安心。ここで話すのは1文だけ：ゲーム制作は絵やコードの話ではなく『体験』を設計する仕事。">
+  <canvas id="title-fx"></canvas>
+  <div class="title-box">
+    <p class="kicker">Tech Team 研修 / 2026</p>
+    <h1>GAME DEV<br><span class="grad">QUEST</span></h1>
+    <p class="sub">ゲーム制作の全体像と、AIの使いどころ</p>
+    <p class="press" id="press-start">▶ PRESS <kbd>Enter</kbd> TO START</p>
+    <p class="tinykeys">→ 進む　← 戻る　<kbd>N</kbd> メモ　<kbd>G</kbd> 一覧　<kbd>F</kbd> 全画面</p>
+  </div>
+</section>
+
+<!-- ══════════ 01 QUEST SELECT ══════════ -->
+<section class="stage" data-world="AGENDA" data-title="今日のクエスト"
+  data-note="地図を見せる。ゴールは『ツール名を覚える』ではなく『制作の流れと、どこにAIが効くか』を持ち帰ること。この資料は全部触れるので、気になったところは後で各自いじってOKと伝える。所要30〜40分。">
+  <h2 class="stage-h">今日のクエスト <small>3つのワールド</small></h2>
+  <div class="quest-grid">
+    <article class="quest w1"><span class="qnum">WORLD 1</span><h3>ゲーム制作の全体像</h3>
+      <p>誰が何を作るのか。「面白い」を設計するとはどういうことか。</p>
+      <ul><li>ゲームの4要素</li><li>職種＝パーティ編成</li><li>ジャンプ調整ラボ（触れる）</li><li>作る順番</li></ul></article>
+    <article class="quest w2"><span class="qnum">WORLD 2</span><h3>ゲームエンジン</h3>
+      <p>Unity / Unreal / Godot / RPG Maker。何を肩代わりしてくれるのか。</p>
+      <ul><li>エンジンの正体</li><li>エンジン診断クイズ</li><li>4エンジン比較</li></ul></article>
+    <article class="quest w3"><span class="qnum">WORLD 3</span><h3>AI活用</h3>
+      <p>企画・コード・素材・テストで実際に何が起きているか。実例つき。</p>
+      <ul><li>AI活用マップ</li><li>実例：45分で3Dゲーム</li><li>素材生成・3Dモデル</li><li>バグハント</li></ul></article>
+  </div>
+  <p class="foot">最後に <b>FINAL BOSS</b>：この資料の中で動く3Dミニゲーム。誰か1人プレイしてもらいます。</p>
+</section>
+
+<!-- ══════════ 02 GAME = 4 ELEMENTS ══════════ -->
+<section class="stage" data-world="WORLD 1" data-title="ゲームって何？"
+  data-note="4つのカードをクリックすると『それが無いとどうなるか』が出る。ここが今日の土台：ゲームは映画と違ってプレイヤーが操作する。だから入力への反応が命。聞き手に『どれが一番大事だと思う？』と振ると盛り上がる（正解は無い）。">
+  <h2 class="stage-h">ゲーム＝<span class="grad">ルール × 操作 × 世界観 × 反応</span> <small>カードを押すと「無い場合」が見える</small></h2>
+  <div class="elem-grid" id="elem-grid">
+    <button class="elem" data-lost="ルールが無いと → ただの<b>おもちゃ</b>。触ると動くけど、勝ちも負けも上達も無い。">
+      <span class="ei">📏</span><h3>ルール</h3><p>勝敗・制限・報酬</p></button>
+    <button class="elem" data-lost="操作が無いと → それは<b>映画</b>。見るだけ。面白くても『自分がやった』にならない。">
+      <span class="ei">🕹</span><h3>操作</h3><p>入力・自由度</p></button>
+    <button class="elem" data-lost="世界観が無いと → <b>無味の練習問題</b>。数字は動くが、続ける理由が生まれない。">
+      <span class="ei">🌍</span><h3>世界観</h3><p>設定・見た目・音</p></button>
+    <button class="elem" data-lost="反応が無いと → <b>壊れた機械</b>。押しても手応えが無い。ゲームで一番嫌われる。">
+      <span class="ei">⚡</span><h3>反応</h3><p>手応え・演出・音</p></button>
+  </div>
+  <p class="reveal" id="elem-out">プレイヤーが「自分で動かしている」と感じられる状態を作るのが、ゲーム制作。</p>
+</section>
+
+<!-- ══════════ 03 PARTY ══════════ -->
+<section class="stage" data-world="WORLD 1" data-title="パーティ編成（職種）"
+  data-note="6職種をクリック。仕事内容だけでなく『いないとどうなるか』を見せるのがポイント。個人開発は1人で全部やる＝AIが一番効く場所でもある、と後半への伏線を張る。">
+  <h2 class="stage-h">パーティ編成 <small>ゲーム制作はチーム戦。カードを選択</small></h2>
+  <div class="party" id="party">
+    <button class="pc" data-role="デザイナー" data-icon="🎲" data-job="遊びのルール・難易度・報酬・ステージ構成を決める。「何をすると気持ちいいか」の責任者。" data-none="いないと → 機能は動くのに面白くない。「で、何が楽しいの？」が起きる。"><span>🎲</span>ゲームデザイン</button>
+    <button class="pc" data-role="プログラマ" data-icon="⌨️" data-job="ルールを動くシステムに変える。入力・物理・当たり判定・敵AI・セーブ・通信。" data-none="いないと → 企画書のまま。誰も遊べない。"><span>⌨️</span>プログラム</button>
+    <button class="pc" data-role="アーティスト" data-icon="🎨" data-job="キャラ・背景・エフェクト・アニメ。見た目は飾りでなく<b>説明書</b>（危険は赤い、拾える物は光る）。" data-none="いないと → 白い箱が動くだけ。状況が読めない。"><span>🎨</span>アート</button>
+    <button class="pc" data-role="サウンド" data-icon="🔊" data-job="効果音・BGM・環境音。攻撃音、足音、勝利BGM。感情のスイッチ。" data-none="いないと → 驚くほど寂しい。手応えが半分消える。"><span>🔊</span>サウンド</button>
+    <button class="pc" data-role="UI/UX" data-icon="🧭" data-job="HP・スコア・メニュー・チュートリアル。情報を一瞬で伝える設計。" data-none="いないと → 操作方法が分からず、最初の1分で離脱。"><span>🧭</span>UI / UX</button>
+    <button class="pc" data-role="QA / PM" data-icon="🐛" data-job="バグ・難易度・操作感の検証と、スケジュール・優先順位の管理。" data-none="いないと → 壁抜け・進行不能で遊べない。あるいは永遠に完成しない。"><span>🐛</span>QA / PM</button>
+  </div>
+  <div class="pane" id="party-pane">
+    <p class="dim">↑ カードを押すと、その職種の仕事と「いない場合」が出ます。</p>
+  </div>
+  <p class="foot">個人開発では、この6人分を1人で兼任する。<b>＝AIが一番効く場所</b>（WORLD 3で回収）</p>
+</section>
+
+<!-- ══════════ 04 JUMP LAB ★ ══════════ -->
+<section class="stage lab-stage" data-world="WORLD 1" data-title="★ ジャンプ調整ラボ"
+  data-note="今日の山場①。まず「気持ちいい」プリセットで自分が数回ジャンプして見せる。次に『モッサリ』『月面』『入力遅延100ms』を順に押して、同じコードでも別ゲームになることを体感させる。可能なら誰かにキーボードを渡す。ここで言うこと：面白さは仕様書では決まらず、数値の調整で決まる。だからAIに全部任せられない。">
+  <h2 class="stage-h">★ ジャンプ調整ラボ <small>「気持ちいい」は数値でできている。<kbd>Space</kbd> でジャンプ</small></h2>
+  <div class="lab">
+    <div class="lab-view">
+      <canvas id="jump-canvas" width="720" height="300"></canvas>
+      <p class="lab-hint"><kbd>Space</kbd> / クリックでジャンプ　→ 穴を飛び越えられる？</p>
+    </div>
+    <div class="lab-panel">
+      <div class="presets" id="jump-presets">
+        <button data-p="good" class="on">😍 気持ちいい</button>
+        <button data-p="floaty">🌙 月面</button>
+        <button data-p="heavy">🧱 モッサリ</button>
+        <button data-p="laggy">😩 遅延100ms</button>
+        <button data-p="raw">🤖 素の実装</button>
+      </div>
+      <label>ジャンプ力 <output id="o-jump"></output><input type="range" id="s-jump" min="4" max="20" step="0.5"></label>
+      <label>重力 <output id="o-grav"></output><input type="range" id="s-grav" min="20" max="140" step="1"></label>
+      <label>入力遅延 (ms) <output id="o-lag"></output><input type="range" id="s-lag" min="0" max="150" step="5"></label>
+      <label>コヨーテ時間 (ms) <output id="o-coy"></output><input type="range" id="s-coy" min="0" max="200" step="10"></label>
+      <label>先行入力バッファ (ms) <output id="o-buf"></output><input type="range" id="s-buf" min="0" max="250" step="10"></label>
+      <p class="lab-note" id="jump-note"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 05 THE CODE ══════════ -->
+<section class="stage" data-world="WORLD 1" data-title="さっきの手応えのコード"
+  data-note="今動かしていたものの中身。専門的に踏み込みすぎない。伝えたいのは『たった数行の add-on（コヨーテ時間・先行入力）が、遊びやすさを決めている』こと。素の実装（if 接地 && 押した）は正しいが気持ちよくない。この差が『プログラムはルールをシステムに変える仕事』の実例。">
+  <h2 class="stage-h">さっきの手応えは、この数行 <small>行をクリックすると解説</small></h2>
+  <div class="codewrap">
+<pre class="code" id="jump-code"><code><span class="cl" data-x="正しいけど気持ちよくない素の実装。地面にいる瞬間にボタンが押されている必要がある。">if (grounded &amp;&amp; pressed) jump();          <span class="cm">// 素の実装</span></span>
+<span class="cl" data-x="コヨーテ時間：崖から落ちた直後の約0.1秒もジャンプを許す。プレイヤーの体感では「押したのに跳ばない」バグが消える。">if (timeSinceLeftGround &lt; COYOTE) canJump = true;  <span class="cm">// 崖の許し</span></span>
+<span class="cl" data-x="先行入力バッファ：着地の少し前に押されたボタンを覚えておいて、着地した瞬間に消費する。連続ジャンプが繋がる。">if (pressedAgo &lt; BUFFER &amp;&amp; grounded) jump();       <span class="cm">// 早押しを覚える</span></span>
+<span class="cl" data-x="上昇中と下降中で重力を変える（下降を1.6倍など）。滞空が短く感じられて「重さ」が出る。マリオもこれ。">gravity = vy &gt; 0 ? G * 1.6 : G;                    <span class="cm">// 落下は速く</span></span>
+<span class="cl" data-x="音・アニメ・画面の揺れ。処理としては1行だが、手応えの体感はここで半分決まる。">sfx('jump'); anim('jump'); squash(0.8);            <span class="cm">// 見た目と音</span></span>
+</code></pre>
+    <div class="pane" id="code-pane"><p class="dim">↑ 行を押すと、その1行が何を守っているか出ます。</p></div>
+  </div>
+  <p class="foot">プログラムの仕事＝<b>ルールを「動くシステム」に変える</b>。正しく動く ≠ 気持ちいい。</p>
+</section>
+
+<!-- ══════════ 06 PIPELINE ══════════ -->
+<section class="stage" data-world="WORLD 1" data-title="作る順番"
+  data-note="ボタンで2つの進め方を比較。『大作から作る』は3ヶ月後に初めて遊べて、つまらなかったら全部やり直し。『小さく作る』は3日で遊べて、方向転換が安い。ゲーム制作は一方通行ではなく、プロトタイプから企画に戻る。初心者に一番伝えるべき点。">
+  <h2 class="stage-h">作る順番 <small>2つの進め方を比べる</small></h2>
+  <div class="pipe-tabs"><button class="on" data-pipe="small">🐣 小さく作る</button><button data-pipe="big">🏰 大作から作る</button></div>
+  <div class="pipeline" id="pipeline"></div>
+  <p class="reveal" id="pipe-out"></p>
+</section>
+
+<!-- ══════════ 07 WHAT IS AN ENGINE ══════════ -->
+<section class="stage" data-world="WORLD 2" data-title="エンジンの正体"
+  data-note="トグルで『自作』と『エンジン』を切り替え、やらなくて済む仕事が消えるのを見せる。家を建てる時の土地・工具・設計ソフトの例えが通じやすい。エンジンは共通部分を担当し、開発者はゲーム固有のルールに集中できる。">
+  <h2 class="stage-h">ゲームエンジンの正体 <small>「肩代わり」の一覧</small></h2>
+  <div class="eng-toggle"><button class="on" data-eng="raw">🔧 ゼロから自作</button><button data-eng="engine">🚀 エンジンを使う</button></div>
+  <div class="tasklist" id="tasklist"></div>
+  <p class="reveal" id="eng-out"></p>
+</section>
+
+<!-- ══════════ 08 ENGINE QUIZ ★ ══════════ -->
+<section class="stage" data-world="WORLD 2" data-title="★ エンジン診断"
+  data-note="聞き手に手を挙げてもらって答えを選ぶ。結果はあくまで傾向。『有名だから』ではなく作りたい物で選ぶ、が結論。RPG Makerは自由度を捨てて速度を取るタイプという整理が刺さる。">
+  <h2 class="stage-h">★ エンジン診断 <small>3問。会場で多い方を選んでください</small></h2>
+  <div class="quiz" id="engine-quiz"></div>
+</section>
+
+<!-- ══════════ 09 COMPARE ══════════ -->
+<section class="stage" data-world="WORLD 2" data-title="4エンジン比較"
+  data-note="絶対評価ではなく傾向として見せる。エンジン名を押すとエディタの実画面が出るので、UIの雰囲気の違い（Unity/Godotは素直、Unrealは情報量が多い、RPG Makerはマップ特化）を一言添える。">
+  <h2 class="stage-h">4エンジン比較 <small>タブでエディタの実画面も切替</small></h2>
+  <div class="eng-tabs" id="eng-tabs"></div>
+  <div class="cmp">
+    <div class="bars" id="cmp-bars"></div>
+    <figure class="shot"><img id="eng-shot" alt="エディタ画面"><figcaption id="eng-cap"></figcaption></figure>
+  </div>
+  <p class="foot">※ 一般的な傾向。プロジェクトの目的で評価は変わる。</p>
+</section>
+
+<!-- ══════════ 10 AI LOOP ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="AIは何を速くするのか"
+  data-note="AIは『代わりに全部作る魔法』ではなく、Idea→Try→Feedback のループを速く回す装置。スライダーでループ速度を上げると、同じ時間で試せる回数が増えるのが見える。面白いかどうかの判定は人間しかできない（＝WORLD 1のジャンプ調整の話に戻る）。">
+  <h2 class="stage-h">AIが速くするのは「ループの回転数」 <small>スライダーを動かしてみる</small></h2>
+  <div class="loopwrap">
+    <canvas id="loop-canvas" width="640" height="300"></canvas>
+    <div class="loopctl">
+      <label>1周にかかる時間 <output id="o-loop"></output><input type="range" id="s-loop" min="1" max="20" step="1" value="8"></label>
+      <div class="loopstat" id="loop-stat"></div>
+      <p class="lab-note">試行回数が増えると、当たりを引く確率が上がる。<br>AIは<b>Try を安くする</b>。<b>Feedback（面白い？）は人間</b>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 11 AI MAP ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="AI活用マップ"
+  data-note="工程を押すと、実際のプロンプトと出力例が出る。全部を読み上げず2〜3個だけ開く。共通の注意点：出てきた物をそのまま使わず、確認・修正・権利チェックをする。">
+  <h2 class="stage-h">AI活用マップ <small>工程を押すと実プロンプト例</small></h2>
+  <div class="aimap" id="aimap"></div>
+  <div class="pane wide" id="aimap-pane"><p class="dim">↑ 工程を選択</p></div>
+</section>
+
+<!-- ══════════ 12 CASE STUDY ★ ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="★ 実例：45分で3Dゲーム"
+  data-note="今日の山場②。Simon Willison が 2026/08/05 に公開した実例。プロンプト1本＋画像2枚を投げて、スマホから放置。約45分で遊べる3Dブラウザゲームができた。プロンプトの効いている部分を強調：『独立して作業して、これ以上デザイン判断を私に聞かないで』『こまめにcommit&pushして、まずタイトル画面だけのindex.htmlから』。タイムラインを再生ボタンで流す。">
+  <h2 class="stage-h">★ 実例：プロンプト1本で3Dゲーム <small>simonw / raccoon-heist（2026-08-05）</small></h2>
+  <div class="case">
+    <div class="case-prompt">
+      <p class="plabel">実際のプロンプト（抜粋・全文は原文参照）</p>
+      <blockquote id="case-prompt"></blockquote>
+    </div>
+    <div class="case-right">
+      <div class="stats" id="case-stats"></div>
+      <div class="timeline" id="case-timeline"></div>
+      <button class="btn" id="case-play">▶ 制作タイムラインを再生</button>
+    </div>
+  </div>
+  <p class="foot">結論（本人の言葉）：実装は驚くほど速い。でも <b>「面白いゲームを設計することは、いまも人間固有のスキル」</b>。</p>
+</section>
+
+<!-- ══════════ 13 AI TESTS ITSELF ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="AIが自分でテストする"
+  data-note="AI活用で一番地味だが一番効く話。Playwrightでブラウザを自動操作させ、スクショを撮って自己確認させると、AIは自分のバグを自分で見つける。実際に見つかった2件は本物のバグで、人間が手で気づくのが難しい種類。QAは『AIに任せやすい仕事』の代表。">
+  <h2 class="stage-h">AIが自分でテストして、自分のバグを見つけた <small>実例2件（raccoon-heist の作業ログより）</small></h2>
+  <div class="bugs">
+    <article class="bugcard">
+      <h3>🐛 スマホで主人公が見えない</h3>
+      <p class="how">Playwrightで 390×844 / DPR 2 のスマホを再現して発見。</p>
+      <p><code>renderer.setSize()</code> の<b>後</b>に <code>canvas.style.cssText</code> を代入 → Three.jsが設定したwidth/heightを上書き。DPR≥2の実機だとcanvasが2倍サイズで描画され、<b>左上1/4しか見えない</b>。</p>
+      <p class="fix">PCでは DPR 1 なので完全に再現しない。＝<b>人間の手動確認では見逃す</b>タイプ。</p>
+    </article>
+    <article class="bugcard">
+      <h3>🐛 「NIGHT 2 ➜」ボタンが押せない</h3>
+      <p class="how">クリア→次ステージまでの通し操作を自動化して発見。</p>
+      <p>勝利画面の星表示に付けた <code>class="stars"</code> が、タイトル画面の全画面 <code>.stars</code> のCSSと衝突。<b>透明な要素が画面全体を覆って</b>クリックを吸っていた。</p>
+      <p class="fix">クラス名の衝突。レビューでもすり抜けやすい。</p>
+    </article>
+  </div>
+  <p class="reveal">AIに「作らせる」だけでなく <b>「確かめさせる」</b>。スクショ・自動操作・ログを渡すと精度が変わる。</p>
+</section>
+
+<!-- ══════════ 14 ASSETS + 3D MODEL ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="素材と3Dモデルを作る"
+  data-note="AIによる素材生成の2つのやり方を見せる。(1) 画像生成API：共通のSTYLE文を前置きして全素材の絵柄を揃える手法（実コード）。(2) 3Dモデル：形をコードで書かせる方法を、その場で回っている実物で見せる。ボタンで別のモデルに切り替えると、右のコードも変わる。テキスト→3Dの専用ツール（Meshy等）もある。商用は必ず利用規約と権利を確認。">
+  <h2 class="stage-h">素材もAIが作る <small>画像生成 & 3Dモデル（実物が回っています）</small></h2>
+  <div class="asset-grid">
+    <div class="asset-col">
+      <h3>① 画像生成API：絵柄を揃えるコツ</h3>
+      <pre class="code small"><code><span class="cm"># 全素材に同じ STYLE を前置きする</span>
+STYLE = (<span class="st">"Seamless tileable texture, top-down flat "
+  "orthographic view, no perspective, even lighting, "
+  "video game texture map, stylized low-poly game art, "
+  "moody nighttime palette with cool blue tones. "</span>)
+
+TEXTURES = {
+  <span class="st">"grass"</span>: <span class="st">"Dark night-time lawn grass ..."</span>,
+  <span class="st">"fence"</span>: <span class="st">"Old wooden fence planks ..."</span>,
+  <span class="st">"metal"</span>: <span class="st">"Galvanized trash can surface ..."</span>,
+}
+gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span></code></pre>
+      <ul class="tips">
+        <li><b>STYLE前置き</b>で7枚の絵柄が揃う（バラバラ問題の対策）</li>
+        <li>ビルド時に1回生成して<b>静的ファイルとしてcommit</b>。公開後はAPIを呼ばない＝落ちない・無料</li>
+        <li>テキスト→3Dの専用ツールもある（Meshy など）</li>
+        <li>商用は<b>利用規約・著作権・一貫性</b>を必ず確認</li>
+      </ul>
+    </div>
+    <div class="asset-col">
+      <h3>② 3Dモデル：形をコードで書かせる</h3>
+      <div class="model-box"><canvas id="model-canvas"></canvas>
+        <div class="model-btns" id="model-btns"></div></div>
+      <pre class="code small" id="model-code"></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 15 AI INSIDE ENGINES ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="エンジン側のAI"
+  data-note="自分でAPIを叩くだけでなく、エンジン側にAIが入ってきている話。UnityはエディタにAIアシスタント、AI gateway、MCP Server。MCPを使うとClaudeやCursorなどのAIエージェントがUnity Editorそのものに繋がる。UnrealはMetaHumanやML Deformer、PCGなど機械学習ベースの制作支援が標準搭載。Blueprintのようなノードグラフも自然言語から組み立てる流れが出てきている。ここは「今こう変わりつつある」という温度感で話す。">
+  <h2 class="stage-h">エンジン側にもAIが入ってきている</h2>
+  <div class="cards3">
+    <article class="c3"><span class="ci">🧩</span><h3>Unity</h3>
+      <ul><li>エディタ内AIアシスタント</li><li>AI gateway（モデル呼び出しの窓口）</li><li><b>MCP Server</b>：Claude / Cursor などのAIエージェントが Unity Editor に直接つながる</li></ul>
+      <p class="src">Unity AI tools / Unity MCP ドキュメント</p></article>
+    <article class="c3"><span class="ci">🎬</span><h3>Unreal Engine</h3>
+      <ul><li>MetaHuman（高品質キャラ生成）</li><li>ML Deformer（変形を機械学習で近似）</li><li>PCG（手続き的な地形・配置生成）</li><li>Blueprintのノード組みを自然言語から下書きする使い方</li></ul>
+      <p class="src">Unreal Engine 公式ニュース</p></article>
+    <article class="c3"><span class="ci">🧊</span><h3>外部ツール</h3>
+      <ul><li>テキスト→3Dモデル生成（Meshy など）</li><li>モーション生成・リターゲット</li><li>音声・SE・仮ボイス</li><li>エンジンへエクスポートして使う</li></ul>
+      <p class="src">※ ライセンス条件はツールごとに違う</p></article>
+  </div>
+  <p class="reveal">流れ：<b>AIが「エディタの外」から「エディタの中」へ</b>。人間の役割は判断とレビューに寄っていく。</p>
+</section>
+
+<!-- ══════════ 16 BUG HUNT ★ ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="★ バグハント"
+  data-note="今日の山場③。AIが自信満々に出したコードの中から、怪しい行を会場に当ててもらう。2問。ここで伝えたいのは『動いてしまうから危ない』こと。読んで分かる力がないと、AIのコードは技術的負債になる。">
+  <h2 class="stage-h">★ バグハント <small>AIが出したコード。おかしい行をクリック</small></h2>
+  <div class="hunt" id="bughunt"></div>
+</section>
+
+<!-- ══════════ 17 RISKS / LINE ══════════ -->
+<section class="stage" data-world="WORLD 3" data-title="任せる / 任せない"
+  data-note="4つの弱点と、線引き。特にゲームは長期開発なので、理解せずにコードを積むと後で直せなくなる。逆に、テスト観点の洗い出し・翻訳のたたき台・ボイラープレートは任せて良い。『何を作るか』と『何をAIに任せるか』を決める力が今後の差になる、で締める。">
+  <h2 class="stage-h">AIの弱点と、線引き</h2>
+  <div class="risks">
+    <article><span class="rn">01</span><h3>自信満々の誤り</h3><p>もっともらしく間違える。動くコードほど危ない。</p></article>
+    <article><span class="rn">02</span><h3>権利・ライセンス</h3><p>画像・音・コードの利用条件。商用は特に。</p></article>
+    <article><span class="rn">03</span><h3>一貫性</h3><p>キャラ・世界観・命名がバラける。STYLE前置きや規約で対策。</p></article>
+    <article><span class="rn">04</span><h3>技術的負債</h3><p>理解せず積むと、後から直せない山になる。</p></article>
+  </div>
+  <div class="line2">
+    <div class="ok"><h3>👍 任せやすい</h3><ul><li>小さい機能の実装・下書き</li><li>エラー原因の説明、別案の提示</li><li>テスト観点の洗い出し・自動テスト</li><li>ローカライズ／文章のたたき台</li><li>素材のラフ・方向性の確認</li></ul></div>
+    <div class="ng"><h3>✋ 人間が持つ</h3><ul><li>面白いかどうかの判定</li><li>数値の最終調整（手応え）</li><li>何を作らないかの決定</li><li>権利・公開の責任</li><li>コードを理解しておく責任</li></ul></div>
+  </div>
+</section>
+
+<!-- ══════════ 18 FINAL BOSS ★ ══════════ -->
+<section class="stage boss-stage" data-world="FINAL" data-title="★ FINAL BOSS：DEADLINE DASH"
+  data-note="締め前の実演。誰か1人に操作してもらう（WASD/矢印、Shiftでダッシュ）。60秒で ⭐機能 を集めて 📦リリース箱 に納品、🐛バグに当たると持ち物が半分落ちる。これも今日話した要素の実物：3D描画・当たり判定・敵AI・スコア・タイマー・効果音（音は全部コード生成、音声ファイル0個）。『この資料自体がゲームで、AIと一緒に数時間で作った』と言って次へ。">
+  <h2 class="stage-h">★ FINAL BOSS：DEADLINE DASH <small>60秒。⭐を拾って📦に納品。🐛に触ると半分落とす</small></h2>
+  <div class="boss-wrap">
+    <canvas id="boss-canvas"></canvas>
+    <div class="boss-hud">
+      <span id="boss-time">60.0</span><span id="boss-score">0</span><span id="boss-carry">0</span>
+    </div>
+    <div class="boss-overlay" id="boss-overlay">
+      <h3>DEADLINE DASH</h3>
+      <p>WASD / 矢印キーで移動　<kbd>Shift</kbd> ダッシュ<br>⭐機能を拾って 📦リリース箱 に届ける。🐛バグに触ると持ち物の半分をロスト。</p>
+      <button class="btn big" id="boss-start">▶ START（クリック）</button>
+    </div>
+  </div>
+  <p class="foot">中身：Three.js / 当たり判定 / 敵の追跡AI / スコア / タイマー — 全部コードだけ（モデルファイル0個・テクスチャもコード生成）</p>
+</section>
+
+<!-- ══════════ 19 WRAP ══════════ -->
+<section class="stage" data-world="END" data-title="まとめ & Q&A"
+  data-note="3点に絞る。ゲーム制作は総合作業、エンジンは土台、AIはループの回転数を上げる装置。最後の一文：作り始めるコストは劇的に下がった。だから『何を作るか』を決める力の価値が上がっている。想定質問：初心者におすすめのエンジン／AIだけで作れるか／商用の注意点。">
+  <h2 class="stage-h">まとめ</h2>
+  <div class="wrap3">
+    <article><span class="wn">01</span><h3>ゲーム制作</h3><p>企画・コード・絵・音・テストの総合戦。正しく動く ≠ 面白い。</p></article>
+    <article><span class="wn">02</span><h3>ゲームエンジン</h3><p>共通部分を肩代わりする土台。作りたい物で選ぶ。</p></article>
+    <article><span class="wn">03</span><h3>AI</h3><p>Idea→Try→Feedback の回転数を上げる。判定は人間。</p></article>
+  </div>
+  <p class="punch">作り始めるコストは劇的に下がった。<br>だから <span class="grad">「何を作るか」と「何を任せないか」</span> を決める力の価値が上がる。</p>
+  <div class="srcs">
+    <b>Sources</b>
+    <a href="https://simonwillison.net/2026/Aug/5/raccoon-heist/" target="_blank" rel="noopener">Simon Willison: One-shotting a Raccoon Heist game</a>
+    <a href="https://github.com/simonw/raccoon-heist" target="_blank" rel="noopener">simonw/raccoon-heist（コード・notes.md）</a>
+    <a href="https://simonw.github.io/raccoon-heist/" target="_blank" rel="noopener">遊べる版</a>
+    <a href="https://unity.com/products/ai" target="_blank" rel="noopener">Unity AI tools</a>
+    <a href="https://www.unrealengine.com/en-US/news" target="_blank" rel="noopener">Unreal Engine News</a>
+    <a href="https://godotengine.org/" target="_blank" rel="noopener">Godot</a>
+    <a href="https://www.rpgmakerweb.com/products/rpg-maker-mz" target="_blank" rel="noopener">RPG Maker MZ</a>
+  </div>
+  <p class="thanks">ご清聴ありがとうございました — <b>Q & A</b></p>
+</section>
+
+</main>
+
+<!-- ══════════ NOTES / MAP / TOAST ══════════ -->
+<aside class="notes" id="notes"><div class="notes-h">📝 発表メモ <small>N で開閉</small></div><div class="notes-b" id="notes-body"></div></aside>
+<div class="overview" id="overview"><h3>ステージ一覧 <small>クリックで移動・Escで閉じる</small></h3><div class="ov-grid" id="ov-grid"></div></div>
+<div class="toast" id="toast"></div>
+<button class="navbtn prev" id="nav-prev" aria-label="前へ">‹</button>
+<button class="navbtn next" id="nav-next" aria-label="次へ">›</button>
+
+<script src="vendor/three.min.js"></script>
+<script src="js/deck.js"></script>
+<script src="js/labs.js"></script>
+<script src="js/boss.js"></script>
+<script>DECK.init();</script>
+</body>
+</html>
