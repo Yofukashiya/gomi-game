@@ -546,3 +546,5 @@ h3 .en,h2 .en{display:inline-block}
 @keyframes say{0%{opacity:0;transform:translateY(6px)}8%{opacity:1;transform:none}
   82%{opacity:1;transform:none}100%{opacity:0;transform:translateY(4px)}}
 @media (max-width:1080px){#pet{width:140px;height:140px}#pet.pet-big{width:220px;height:170px}}
+/* マスコット：吹き出しは反応中に何度も出るので少し長めに残す */
+.pet-say{max-width:250px}
