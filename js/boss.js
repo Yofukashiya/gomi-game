@@ -250,7 +250,7 @@ const BOSS = (() => {
       stick.style.left = (e.clientX - r.left) + 'px';
       stick.style.top = (e.clientY - r.top) + 'px';
       stick.classList.add('on');
-      cv.setPointerCapture(e.pointerId);
+      try { cv.setPointerCapture(e.pointerId); } catch (_) { /* 合成イベント等 */ }
     });
     cv.addEventListener('pointermove', (e) => {
       if (!touch.on || e.pointerId !== touch.id) return;

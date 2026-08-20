@@ -74,6 +74,7 @@ const DECK = (() => {
       WORLD3D.pause(to.classList.contains('boss-stage'));   /* mini-game owns the GPU */
     }
     levelCard(to, n);
+    if (window.PETS) PETS.onStage(to);
     broadcast();
     hooksFor(to).forEach(f => f.enter && f.enter(to));
     to.scrollTop = 0;

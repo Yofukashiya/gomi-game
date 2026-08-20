@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GAME DEV QUEST — ゲーム制作とAI活用</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
-<link rel="stylesheet" href="css/deck.css?v=1">
+<link rel="stylesheet" href="css/deck.css?v=2">
 </head>
 <body>
 <canvas id="bg3d"></canvas>
@@ -30,7 +30,7 @@
 <main id="stages">
 
 <!-- ══════════ 00 TITLE ══════════ -->
-<section class="stage title-stage" data-world="TITLE" data-title="タイトル"
+<section class="stage title-stage" data-world="TITLE" data-title="タイトル" data-pet="raccoon" data-pet-say="このスライド、ゲームです。ドラッグで回せるよ"
   data-note="つかみ。『今日の資料はスライドじゃなくてゲームです』と言ってEnterを押す。矢印キーで進む／Nで発表メモ／Gでステージ一覧、と最初に宣言しておくと安心。ここで話すのは1文だけ：ゲーム制作は絵やコードの話ではなく『体験』を設計する仕事。">
   <canvas id="title-fx"></canvas>
   <div class="title-box">
@@ -43,7 +43,7 @@
 </section>
 
 <!-- ══════════ 01 QUEST SELECT ══════════ -->
-<section class="stage" data-world="AGENDA" data-title="今日のクエスト"
+<section class="stage" data-world="AGENDA" data-title="今日のクエスト" data-pet="cat" data-pet-say="3ワールド＋FINAL BOSS。にゃ"
   data-note="地図を見せる。ゴールは『ツール名を覚える』ではなく『制作の流れと、どこにAIが効くか』を持ち帰ること。この資料は全部触れるので、気になったところは後で各自いじってOKと伝える。所要30〜40分。">
   <h2 class="stage-h">今日のクエスト <small>3つのワールド</small></h2>
   <div class="quest-grid">
@@ -61,7 +61,7 @@
 </section>
 
 <!-- ══════════ 02 GAME = 4 ELEMENTS ══════════ -->
-<section class="stage" data-world="WORLD 1" data-title="ゲームって何？"
+<section class="stage" data-world="WORLD 1" data-title="ゲームって何？" data-pet="cat" data-pet-say="押しても何も起きないと壊れて見えるにゃ"
   data-note="4つのカードをクリックすると『それが無いとどうなるか』が出る。ここが今日の土台：ゲームは映画と違ってプレイヤーが操作する。だから入力への反応が命。聞き手に『どれが一番大事だと思う？』と振ると盛り上がる（正解は無い）。">
   <h2 class="stage-h">ゲーム＝<span class="grad">ルール × 操作 × 世界観 × 反応</span> <small>カードを押すと「無い場合」が見える</small></h2>
   <div class="elem-grid" id="elem-grid">
@@ -78,7 +78,7 @@
 </section>
 
 <!-- ══════════ 03 PARTY ══════════ -->
-<section class="stage" data-world="WORLD 1" data-title="パーティ編成（職種）"
+<section class="stage" data-world="WORLD 1" data-title="パーティ編成（職種）" data-pet="dog" data-pet-say="1人で全部やるのは大変！"
   data-note="6職種をクリック。仕事内容だけでなく『いないとどうなるか』を見せるのがポイント。個人開発は1人で全部やる＝AIが一番効く場所でもある、と後半への伏線を張る。">
   <h2 class="stage-h">パーティ編成 <small>ゲーム制作はチーム戦。カードを選択</small></h2>
   <div class="party" id="party">
@@ -322,7 +322,7 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
 </section>
 
 <!-- ══════════ 17 RISKS / LINE ══════════ -->
-<section class="stage" data-world="WORLD 3" data-title="任せる / 任せない"
+<section class="stage" data-world="WORLD 3" data-title="任せる / 任せない" data-pet="raccoon" data-pet-say="理解せずに積むと後で直せないよ"
   data-note="4つの弱点と、線引き。特にゲームは長期開発なので、理解せずにコードを積むと後で直せなくなる。逆に、テスト観点の洗い出し・翻訳のたたき台・ボイラープレートは任せて良い。『何を作るか』と『何をAIに任せるか』を決める力が今後の差になる、で締める。">
   <h2 class="stage-h">AIの弱点と、線引き</h2>
   <div class="risks">
@@ -359,7 +359,7 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
 </section>
 
 <!-- ══════════ 19 WRAP ══════════ -->
-<section class="stage" data-world="END" data-title="まとめ & Q&A"
+<section class="stage" data-world="END" data-title="まとめ & Q&A" data-pet="trio" data-pet-say="おつかれさま！質問ある？"
   data-note="3点に絞る。ゲーム制作は総合作業、エンジンは土台、AIはループの回転数を上げる装置。最後の一文：作り始めるコストは劇的に下がった。だから『何を作るか』を決める力の価値が上がっている。想定質問：初心者におすすめのエンジン／AIだけで作れるか／商用の注意点。">
   <h2 class="stage-h">まとめ</h2>
   <div class="wrap3">
@@ -390,13 +390,14 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
 <button class="navbtn prev" id="nav-prev" aria-label="前へ">‹</button>
 <button class="navbtn next" id="nav-next" aria-label="次へ">›</button>
 
-<script src="vendor/three.min.js?v=1"></script>
-<script src="js/world3d.js?v=1"></script>
-<script src="js/deck.js?v=1"></script>
-<script src="js/labs.js?v=1"></script>
-<script src="js/scores.js?v=1"></script>
-<script src="js/collide.js?v=1"></script>
-<script src="js/boss.js?v=1"></script>
+<script src="vendor/three.min.js?v=2"></script>
+<script src="js/world3d.js?v=2"></script>
+<script src="js/deck.js?v=2"></script>
+<script src="js/labs.js?v=2"></script>
+<script src="js/scores.js?v=2"></script>
+<script src="js/pets.js?v=2"></script>
+<script src="js/collide.js?v=2"></script>
+<script src="js/boss.js?v=2"></script>
 <script>DECK.init();</script>
 </body>
 </html>
