@@ -1,62 +1,49 @@
-# 共有スコアボードの設定（Supabase）
+# 共有スコアボード（Supabase）— 設定済み
 
-GitHub Pages はもう公開済み： https://yofukashiya.github.io/gomi-game/
-あとは Supabase を1つ作って、キーを2箇所に貼るだけ。**5分**。
+- 公開URL： https://yofukashiya.github.io/gomi-game/
+- プロジェクト ref： `wwllodbzsvzbhtknajbe`
+- テーブル： `public.scores`（マイグレーション `supabase/migrations/20260820075212_create_scores.sql`）
+- クライアント設定： `js/scores.js` の `CONFIG`（publishable key はクライアント配布前提のキー）
 
-## 1. テーブルを作る
-
-Supabase の SQL Editor に貼って実行：
-
-```sql
-create table scores (
-  id         bigint generated always as identity primary key,
-  name       text not null check (char_length(name) between 1 and 12),
-  score      int  not null check (score between 0 and 5000),
-  created_at timestamptz default now()
-);
-create index scores_score_idx on scores (score desc);
-
-alter table scores enable row level security;
-create policy "anon read"   on scores for select to anon using (true);
-create policy "anon insert" on scores for insert to anon with check (true);
-```
-
-`check` 制約が「変な名前・ありえないスコア」を弾く唯一の防波堤なので消さないこと。
-
-## 2. キーを貼る
-
-Project Settings → API から2つコピーして `js/scores.js` の先頭へ：
-
-```js
-const CONFIG = {
-  url: 'https://xxxxxxxx.supabase.co',   // Project URL
-  key: 'eyJ...',                          // anon / publishable key
-  table: 'scores',
-};
-```
-
-anon key はクライアントに置く前提のキー（公開しても鍵漏洩ではない）。
-ただし公開リポジトリに入るので、**誰でも insert はできる**。社内研修ならこれで十分。
-
-## 3. 反映
+適用済みコマンド：
 
 ```bash
-git add js/scores.js && git commit -m "chore: scoreboard config" && git push
+supabase link --project-ref wwllodbzsvzbhtknajbe -p "$SUPABASE_DB_PASSWORD"
+supabase db push --linked   -p "$SUPABASE_DB_PASSWORD"
 ```
 
-GitHub Pages は1〜2分で更新される。
+## 動作確認の結果
 
-## 動きかた
+| 確認 | 結果 |
+|---|---|
+| 匿名 insert | 201 ✓ |
+| 匿名 select（上位順） | 200 ✓ |
+| スコア 999999 | 400 `scores_score_check` で拒否 ✓ |
+| 名前 20文字 | 400 `scores_name_check` で拒否 ✓ |
+| 他人の行を UPDATE | 0行（RLSでブロック）✓ |
+| 他人の行を DELETE | 0行（RLSでブロック）✓ |
+| ブラウザ通し（名前入力→送信→一覧更新） | ✓ |
 
-- BOSSステージを開くと、START画面に **上位10件** が出る（3秒ごとに自動更新）
-- 初回クリア時に名前を入力 → 以降は `localStorage` に記憶して自動送信
-- 自分の行は黄色でハイライト
-- **未設定でも壊れない**：`CONFIG` が空なら「未設定」表示のままローカルのベストだけ動く
+## 挙動
 
-## 片付け
+- BOSSステージを開くと START 画面に上位10件、**3秒ごと**に自動更新
+- 初回クリア時に名前を入力 → `localStorage` に記憶して以降は自動送信
+- 自分の行は黄色
+- Supabaseが落ちていても「接続できません」と出るだけでゲームは動く
 
-研修が終わったらテーブルを消すだけ：
+## テストデータを消す
+
+`delete` ポリシーを意図的に作っていないので、REST からは消せない（＝参加者が他人のスコアを消せない）。
+消すときは SQL Editor から：
+
+```sql
+delete from scores;                     -- 全消し（研修開始前に1回やると綺麗）
+```
+
+## 研修が終わったら
 
 ```sql
 drop table scores;
 ```
+
+`js/scores.js` の `CONFIG.url` / `CONFIG.key` を空文字にすれば、スコアボード無しの状態に戻る（ゲームはそのまま動く）。

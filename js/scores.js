@@ -3,8 +3,8 @@
    deck silently falls back to the local best score. */
 const SCORES = (() => {
   const CONFIG = {
-    url: '',            // 例: https://xxxxxxxx.supabase.co
-    key: '',            // anon / publishable key（公開前提のキー）
+    url: 'https://wwllodbzsvzbhtknajbe.supabase.co',
+    key: 'sb_publishable_vN8q0YaCzHdOTpsHhEo3IQ_8_R05PLG',   // publishable key: クライアント配布前提のキー
     table: 'scores',
   };
   const on = () => !!(CONFIG.url && CONFIG.key);
