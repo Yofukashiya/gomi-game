@@ -454,3 +454,45 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
   color:var(--dim);margin:.8em 0 0}
 .colstat b{color:var(--cy)}
 .colstat span:nth-child(2) b{color:var(--mg)}
+
+/* ── background visible again; text gets its own coloured plate ─── */
+#bg3d{opacity:1;filter:none}
+body::before{display:none}            /* drop the full-screen scrim */
+.stage::before{display:none}          /* drop the per-stage scrim */
+.stage-h,.stage p,.stage li,.stage h3,.stage h4{text-shadow:none}
+
+:root{--plate:rgba(11,19,46,.93);--plateline:rgba(150,190,255,.14)}
+
+/* headings sit on their own slab, not the whole width */
+.stage-h{align-self:flex-start;background:var(--plate);border:1px solid var(--plateline);
+  border-left:0;padding:.5em .9em .55em 1em;border-radius:0 8px 8px 0}
+.stage-h::before{left:0;top:0;bottom:0;width:6px}
+
+/* text blocks + borderless columns get the plate */
+.foot,.reveal,.punch,.lab-hint,.srcs,.thanks,.quest,.risks article,.wrap3 article,.c3,
+.elem,.pc,.am,.stat,.colstat{background:var(--plate);border-radius:8px}
+.foot,.punch,.thanks,.srcs{padding:.55em .9em;border:1px solid var(--plateline)}
+.foot,.srcs{align-self:flex-start}
+.quest,.risks article,.wrap3 article,.c3{padding:.85em 1em 1em;border:1px solid var(--plateline);
+  border-top-width:3px}
+.quest{border-radius:0 0 8px 8px}
+.elem,.pc,.am{border:1px solid var(--plateline);border-bottom-width:3px}
+.stat{padding:.6em .8em;border:1px solid var(--plateline);border-left:3px solid var(--yl)}
+.colstat{padding:.5em .8em;border:1px solid var(--plateline)}
+.reveal{border:1px solid var(--plateline);border-left:5px solid var(--cy)}
+
+/* the framed panels go opaque so code and canvases stay crisp */
+.pane,.lab-panel,.lab-view,.q,.loopctl,.bugcard,.hcase,.timeline,.line2>div,.shot,.qresult{
+  background:var(--plate);border:1px solid var(--plateline)}
+.code{background:rgba(4,7,16,.96)}
+/* the plates added a few px: keep every stage inside the viewport */
+.lab-hint{margin:.45em auto 0;padding:.25em .7em;display:table}
+.hcase{padding:.8em .95em}
+.hres{min-height:4em}
+.stage{gap:clamp(8px,1.3vh,18px)}
+/* jump lab: the canvas drives the height, so cap it instead of padding-golf */
+.lab-view{padding:10px}
+#jump-canvas{max-height:44vh;object-fit:contain}
+.lab-panel label,.loopctl label{margin:.75em 0}
+.lab-note{min-height:2.9em;margin:.7em 0 0}
+.presets{margin-bottom:.6em}

@@ -19,10 +19,10 @@ const WORLD3D = (() => {
         : i % 4 === 2 ? new THREE.OctahedronGeometry(1.1)
           : new THREE.TorusGeometry(.8, .28, 6, 10);
     const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({
-      color: 0x3ce0ff, wireframe: true, transparent: true, opacity: .24
+      color: 0x3ce0ff, wireframe: true, transparent: true, opacity: .42
     }));
     const side = Math.random() < .5 ? -1 : 1;
-    m.position.set(side * (24 + Math.random() * 30), Math.random() * 30 - 6, -Math.random() * 90 - 14);
+    m.position.set(side * (8 + Math.random() * 42), Math.random() * 30 - 6, -Math.random() * 90 - 14);
     m.userData = { s: .1 + Math.random() * .5, r: Math.random() * 6, d: .3 + Math.random() * .9 };
     m.scale.setScalar(.6 + Math.random() * 2.2);
     return m;
@@ -69,7 +69,7 @@ const WORLD3D = (() => {
       m.rotation.x += dt * m.userData.s * T.spin * 8;
       m.rotation.y += dt * m.userData.s * T.spin * 11;
       m.position.z += dt * m.userData.d;              /* drift toward camera */
-      if (m.position.z > 10) { m.position.z = -100; m.position.x = (Math.random() < .5 ? -1 : 1) * (24 + Math.random() * 30); }
+      if (m.position.z > 10) { m.position.z = -100; m.position.x = (Math.random() < .5 ? -1 : 1) * (8 + Math.random() * 42); }
       lerpC(m.material, m.userData.r > 3 ? T.b : T.a, Math.min(1, dt * 1.2));
     }
     lerpC(grid.material, T.a, Math.min(1, dt * 1.2));
