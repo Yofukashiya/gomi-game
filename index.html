@@ -346,10 +346,13 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
     <div class="boss-hud">
       <span id="boss-time">60.0</span><span id="boss-score">0</span><span id="boss-carry">0</span>
     </div>
+    <div class="boss-stick" id="boss-stick"><i id="boss-knob"></i></div>
+    <button class="boss-dash" id="boss-dash">DASH</button>
     <div class="boss-overlay" id="boss-overlay">
       <h3>DEADLINE DASH</h3>
-      <p>WASD / 矢印キーで移動　<kbd>Shift</kbd> ダッシュ<br>⭐機能を拾って 📦リリース箱 に届ける。🐛バグに触ると持ち物の半分をロスト。</p>
+      <p>WASD / 矢印キーで移動　<kbd>Shift</kbd> ダッシュ<br>スマホは<b>画面をなぞってスティック操作</b>＋右下 DASH<br>⭐機能を拾って 📦リリース箱 に届ける。🐛バグに触ると持ち物の半分をロスト。</p>
       <button class="btn big" id="boss-start">▶ START（クリック）</button>
+      <div class="lb" id="boss-lb-idle"></div>
     </div>
   </div>
   <p class="foot">中身：Three.js / 当たり判定 / 敵の追跡AI / スコア / タイマー — 全部コードだけ（モデルファイル0個・テクスチャもコード生成）</p>
@@ -391,6 +394,7 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
 <script src="js/world3d.js"></script>
 <script src="js/deck.js"></script>
 <script src="js/labs.js"></script>
+<script src="js/scores.js"></script>
 <script src="js/collide.js"></script>
 <script src="js/boss.js"></script>
 <script>DECK.init();</script>

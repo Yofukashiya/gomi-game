@@ -5,6 +5,7 @@ const BOSS = (() => {
   let ren, scene, cam, cv;
   let player, box3, feats = [], bugs = [];
   let keys = {}, st = null, stop = null, ready = false;
+  let touch = { on: false, ax: 0, az: 0, dash: false, id: null, ox: 0, oy: 0 };
 
   const rnd = (a, b) => a + Math.random() * (b - a);
   const spot = () => { // random spot, not too close to the release box
@@ -138,19 +139,23 @@ const BOSS = (() => {
     sub += `<br><span style="color:var(--yl)">🏆 ベスト ${best} pt</span>`;
     const ov = $('#boss-overlay');
     ov.classList.remove('hide');
-    ov.innerHTML = `<h3>${msg}</h3><p>${sub}</p><button class="btn big" id="boss-again">↻ もう一度</button>`;
+    ov.innerHTML = `<h3>${msg}</h3><p>${sub}</p><button class="btn big" id="boss-again">↻ もう一度</button>
+      <div class="lb" id="boss-lb"></div>`;
     $('#boss-again').onclick = start;
+    if (window.SCORES) SCORES.afterGame(st.score, $('#boss-lb'));
   }
 
   function step(dt) {
     ren.render(scene, cam);
     if (!st || st.over) return;
 
-    /* input */
-    const sp = (keys.shift ? 17 : 10);
+    /* input: keyboard or touch stick */
+    const sp = ((keys.shift || touch.dash) ? 17 : 10);
     let ax = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
     let az = (keys.down ? 1 : 0) - (keys.up ? 1 : 0);
-    const l = Math.hypot(ax, az) || 1; ax /= l; az /= l;
+    if (touch.on) { ax = touch.ax; az = touch.az; }
+    const l = Math.hypot(ax, az) || 1;
+    if (l > 1) { ax /= l; az /= l; } else if (!touch.on && l) { ax /= l; az /= l; }
     st.vx += (ax * sp - st.vx) * Math.min(1, dt * 9);
     st.vz += (az * sp - st.vz) * Math.min(1, dt * 9);
     st.px = Math.max(-R + 2, Math.min(R - 2, st.px + st.vx * dt));
@@ -235,10 +240,41 @@ const BOSS = (() => {
     addEventListener('resize', resize);
     $('#boss-start').onclick = start;
 
+    /* ── touch controls (phones): dynamic stick + DASH ── */
+    const stick = $('#boss-stick'), knob = $('#boss-knob'), dash = $('#boss-dash');
+    const MAXR = 46;
+    cv.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' || !st || st.over) return;
+      touch.on = true; touch.id = e.pointerId; touch.ox = e.clientX; touch.oy = e.clientY;
+      const r = cv.getBoundingClientRect();
+      stick.style.left = (e.clientX - r.left) + 'px';
+      stick.style.top = (e.clientY - r.top) + 'px';
+      stick.classList.add('on');
+      cv.setPointerCapture(e.pointerId);
+    });
+    cv.addEventListener('pointermove', (e) => {
+      if (!touch.on || e.pointerId !== touch.id) return;
+      let dx = e.clientX - touch.ox, dy = e.clientY - touch.oy;
+      const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / MAXR);
+      touch.ax = (dx / d) * k; touch.az = (dy / d) * k;
+      knob.style.transform = `translate(${(dx / d) * k * MAXR}px,${(dy / d) * k * MAXR}px)`;
+    });
+    const endTouch = (e) => {
+      if (e.pointerId !== touch.id) return;
+      touch.on = false; touch.ax = touch.az = 0; touch.id = null;
+      stick.classList.remove('on'); knob.style.transform = '';
+    };
+    cv.addEventListener('pointerup', endTouch);
+    cv.addEventListener('pointercancel', endTouch);
+    dash.addEventListener('pointerdown', (e) => { touch.dash = true; e.preventDefault(); });
+    dash.addEventListener('pointerup', () => touch.dash = false);
+    dash.addEventListener('pointercancel', () => touch.dash = false);
+
     D.on('FINAL BOSS', {
       enter() {
         if (!ready) { build(); reset(); }
         resize();
+        if (window.SCORES) SCORES.watch($('#boss-lb-idle'));
         if (location.search.includes('boss=1')) start();   /* headless smoke test hook */
         let last = performance.now(); let alive = true;
         (function tick(t) {
@@ -248,7 +284,7 @@ const BOSS = (() => {
         })(last);
         stop = () => { alive = false; };
       },
-      leave() { stop && stop(); keys = {}; }
+      leave() { stop && stop(); if (window.SCORES) SCORES.unwatch(); keys = {}; touch.on = false; touch.ax = touch.az = 0; touch.dash = false; }
     });
   }
   return { install };
