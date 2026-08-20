@@ -26,7 +26,7 @@ const DECK = (() => {
 
   function go(n, dir) {
     n = Math.max(0, Math.min(S.stages.length - 1, n));
-    if (n === S.i && dir !== undefined) return;
+    if (n === S.i && S.stages[n].classList.contains('on')) return;
     const from = S.stages[S.i], to = S.stages[n];
     if (from && from !== to) hooksFor(from).forEach(f => f.leave && f.leave(from));
     S.stages.forEach(s => s.classList.remove('on'));
@@ -71,8 +71,10 @@ const DECK = (() => {
         return;
       }
       if (typing) return;
-      if (e.key === 'ArrowRight' || e.key === 'PageDown') { go(S.i + 1, 1); e.preventDefault(); }
-      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { go(S.i - 1, -1); e.preventDefault(); }
+      /* arrows drive the mini-game on the boss stage — leave it with G */
+      const boss = S.stages[S.i].classList.contains('boss-stage');
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') { if (!boss) go(S.i + 1, 1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { if (!boss) go(S.i - 1, -1); e.preventDefault(); }
       if (e.key === 'Enter' && S.i === 0) go(1, 1);
       /* Space advances only where it isn't the game button */
       if (e.key === ' ' && !S.stages[S.i].classList.contains('lab-stage')
