@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>発表者ビュー — GAME DEV QUEST</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+<style>
+:root{--bg:#0b0d12;--panel:#151922;--line:#2b3242;--text:#f2f5fb;--dim:#98a3b8;
+  --cy:#3ce0ff;--yl:#ffd166;--mg:#ff5cc8;--gr:#5ff2a8;
+  --jp:"Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--jp);display:flex;flex-direction:column;
+  font-size:clamp(16px,1.6vw,21px);line-height:1.7}
+header{display:flex;align-items:center;gap:.7em;padding:.7em 1em;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:.8rem;flex-wrap:wrap}
+.tag{border:1px solid var(--line);border-radius:3px;padding:.15em .6em;color:var(--dim)}
+#world{color:var(--cy);border-color:var(--cy)}
+#clock{margin-left:auto;font-size:1.5rem;color:var(--yl);letter-spacing:.06em}
+#clock.over{color:var(--mg)}
+button{font:inherit;font-family:var(--mono);font-size:.78rem;cursor:pointer;background:var(--panel);
+  color:var(--text);border:1px solid var(--line);border-radius:4px;padding:.3em .8em}
+button:hover{border-color:var(--cy);color:var(--cy)}
+main{flex:1 1 auto;min-height:0;overflow:auto;padding:1.1em 1.3em}
+h1{margin:0 0 .5em;font-size:clamp(1.4rem,2.6vw,2rem);line-height:1.25}
+#note{white-space:pre-wrap;max-width:60ch}
+footer{border-top:1px solid var(--line);padding:.7em 1.3em;display:flex;align-items:center;gap:1em;
+  color:var(--dim);font-size:.9em}
+#next{color:var(--gr)}
+.hint{font-family:var(--mono);font-size:.72rem;color:var(--dim);padding:0 1.3em .8em}
+.off{color:var(--mg)}
+</style>
+</head>
+<body>
+<header>
+  <span class="tag" id="stage">— / —</span>
+  <span class="tag" id="world">—</span>
+  <span class="tag" id="exp">EXP 0</span>
+  <button id="prev">◀ 前</button><button id="next-btn">次 ▶</button>
+  <span id="clock">00:00</span>
+  <button id="startstop">⏸</button><button id="reset">↺</button>
+</header>
+<main>
+  <h1 id="title">スライド側のウィンドウを開いてください</h1>
+  <div id="note" class="off">この画面はメモ専用です。<br>
+  同じブラウザで <b>index.html</b> を別ウィンドウで開くと自動で同期します。<br><br>
+  画面共有するときは「画面全体」ではなく <b>スライドのウィンドウ</b> を選んでください。</div>
+</main>
+<footer><span>次：</span><span id="next">—</span></footer>
+<p class="hint">← → でスライド操作　/　⏸ でタイマー停止　/　このウィンドウは共有しない</p>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const ch = 'BroadcastChannel' in window ? new BroadcastChannel('gdq') : null;
+
+/* ── talk timer ── */
+let t0 = Date.now(), acc = 0, running = true;
+const LIMIT = 40 * 60;                     // 40分でタイマーが警告色に
+function tick() {
+  const s = Math.floor((acc + (running ? Date.now() - t0 : 0)) / 1000);
+  $('#clock').textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  $('#clock').classList.toggle('over', s > LIMIT);
+}
+setInterval(tick, 500); tick();
+$('#startstop').onclick = () => {
+  if (running) { acc += Date.now() - t0; running = false; $('#startstop').textContent = '▶'; }
+  else { t0 = Date.now(); running = true; $('#startstop').textContent = '⏸'; }
+};
+$('#reset').onclick = () => { acc = 0; t0 = Date.now(); running = true; $('#startstop').textContent = '⏸'; tick(); };
+
+/* ── follow the deck ── */
+function render(m) {
+  $('#stage').textContent = `STAGE ${String(m.i).padStart(2, '0')} / ${m.n}`;
+  $('#world').textContent = m.world || '—';
+  $('#exp').textContent = 'EXP ' + m.exp;
+  $('#title').textContent = m.title || '';
+  $('#note').classList.remove('off');
+  $('#note').textContent = m.note || '（メモなし）';
+  $('#next').textContent = m.nextTitle || '（最後のステージ）';
+}
+if (ch) {
+  ch.onmessage = (e) => { if (e.data && e.data.title !== undefined) render(e.data); };
+  ch.postMessage({ req: 1 });              // ask the deck for its current stage
+}
+
+/* ── drive the deck from here ── */
+const send = (cmd) => ch && ch.postMessage({ cmd });
+$('#prev').onclick = () => send('prev');
+$('#next-btn').onclick = () => send('next');
+addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') { send('next'); e.preventDefault(); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { send('prev'); e.preventDefault(); }
+});
+</script>
+</body>
+</html>

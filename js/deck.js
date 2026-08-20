@@ -28,6 +28,17 @@ const DECK = (() => {
       setTimeout(() => document.body.classList.remove('lvflash'), 700); }
   }
 
+  /* presenter window (presenter.html) follows the deck over BroadcastChannel */
+  const CH = 'BroadcastChannel' in window ? new BroadcastChannel('gdq') : null;
+  function broadcast() {
+    if (!CH) return;
+    const to = S.stages[S.i], nx = S.stages[S.i + 1];
+    CH.postMessage({
+      i: S.i, n: S.stages.length - 1, world: to.dataset.world, title: to.dataset.title,
+      note: to.dataset.note || '', nextTitle: nx ? nx.dataset.title : '', exp: S.exp
+    });
+  }
+
   function toast(msg) {
     const t = $('#toast');
     t.textContent = msg; t.classList.add('on');
@@ -39,6 +50,7 @@ const DECK = (() => {
     $('#hud-exp').textContent = S.exp;
     toast(`+${n} EXP　${why || ''}`);
     levelUp();
+    broadcast();
   }
   /* award once per key — keeps the HUD honest when a stage is revisited */
   function expOnce(key, n, why) { if (!S.seen.has(key)) { S.seen.add(key); exp(n, why); } }
@@ -62,6 +74,7 @@ const DECK = (() => {
       WORLD3D.pause(to.classList.contains('boss-stage'));   /* mini-game owns the GPU */
     }
     levelCard(to, n);
+    broadcast();
     hooksFor(to).forEach(f => f.enter && f.enter(to));
     to.scrollTop = 0;
   }
@@ -105,6 +118,14 @@ const DECK = (() => {
         && !S.stages[S.i].classList.contains('boss-stage')) { go(S.i + 1, 1); e.preventDefault(); }
     });
 
+    if (CH) CH.onmessage = (e) => {
+      const m = e.data || {};
+      if (m.req) return broadcast();
+      if (m.cmd === 'next') go(S.i + 1, 1);
+      if (m.cmd === 'prev') go(S.i - 1, -1);
+    };
+    $('#btn-presenter').onclick = () =>
+      open('presenter.html', 'gdq-presenter', 'width=560,height=780');
     $('#press-start').onclick = () => go(1, 1);
     if (window.WORLD3D) WORLD3D.init();
     LABS.install(DECK);
