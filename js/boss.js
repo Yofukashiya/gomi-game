@@ -133,6 +133,9 @@ const BOSS = (() => {
 
   function finish(msg, sub) {
     st.over = true;
+    const best = Math.max(st.score, +(localStorage.getItem('dd-best') || 0));
+    localStorage.setItem('dd-best', best);
+    sub += `<br><span style="color:var(--yl)">🏆 ベスト ${best} pt</span>`;
     const ov = $('#boss-overlay');
     ov.classList.remove('hide');
     ov.innerHTML = `<h3>${msg}</h3><p>${sub}</p><button class="btn big" id="boss-again">↻ もう一度</button>`;

@@ -137,6 +137,31 @@
   <p class="foot">プログラムの仕事＝<b>ルールを「動くシステム」に変える</b>。正しく動く ≠ 気持ちいい。</p>
 </section>
 
+<!-- ══════════ 06 COLLISION LAB ★ ══════════ -->
+<section class="stage" data-world="WORLD 1" data-title="★ 当たり判定ラボ"
+  data-note="壁抜けバグの正体を見せる。まず離散判定のまま速度スライダーを上げていくと、ある速度から球が壁をすり抜け始める（すり抜け回数が増える）。黄色い点は1フレームごとの位置で、点の間隔が壁の厚さを超えた瞬間に壁を飛び越えているのが見える。次に「連続判定」に切り替えると、同じ速度でもすり抜けない。QAが『たまに壁を抜ける』と報告するバグはこれ。対策は連続判定・固定タイムステップ・判定を厚くする。AIに実装させると離散判定で書いてくることが多い、という話にも繋げられる。">
+  <h2 class="stage-h">★ 当たり判定ラボ <small>「壁抜けバグ」はなぜ起きる？　速度を上げてみる</small></h2>
+  <div class="lab">
+    <div class="lab-view">
+      <div class="col-box"><canvas id="collide-canvas"></canvas></div>
+      <p class="lab-hint">黄色い点＝1フレームごとの位置。点の間隔が壁の厚さを超えると…</p>
+    </div>
+    <div class="lab-panel">
+      <div class="presets" id="col-modes">
+        <button data-m="discrete" class="on">離散判定（毎フレーム重なり）</button>
+        <button data-m="swept">連続判定（線分で交差）</button>
+      </div>
+      <label>速度 <output id="o-colspeed"></output><input type="range" id="s-colspeed" min="6" max="260" step="2"></label>
+      <div class="colstat">
+        <span>命中 <b id="col-hit">0</b></span>
+        <span>すり抜け <b id="col-pass">0</b></span>
+        <span>1フレームの移動 <b id="col-step">0</b> / 壁の厚さ 0.70</span>
+      </div>
+      <p class="lab-note" id="col-note"></p>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════ 06 PIPELINE ══════════ -->
 <section class="stage" data-world="WORLD 1" data-title="作る順番"
   data-note="ボタンで2つの進め方を比較。『大作から作る』は3ヶ月後に初めて遊べて、つまらなかったら全部やり直し。『小さく作る』は3日で遊べて、方向転換が安い。ゲーム制作は一方通行ではなく、プロトタイプから企画に戻る。初心者に一番伝えるべき点。">
@@ -365,6 +390,7 @@ gen(STYLE + TEXTURES[name])   <span class="cm"># → 512px JPEG を commit</span
 <script src="js/world3d.js"></script>
 <script src="js/deck.js"></script>
 <script src="js/labs.js"></script>
+<script src="js/collide.js"></script>
 <script src="js/boss.js"></script>
 <script>DECK.init();</script>
 </body>

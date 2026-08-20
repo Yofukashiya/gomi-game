@@ -446,3 +446,11 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 .stage-h,.stage p,.stage li,.stage h3,.stage h4,.quest,.risks article,.wrap3 article,.c3{
   text-shadow:0 2px 12px rgba(4,6,15,.95)}
 .qnum,.rn,.wn,.am small,.stat small{text-shadow:none}
+
+/* collision lab */
+.col-box{height:min(42vh,340px);border-radius:8px;overflow:hidden;background:#060a16}
+#collide-canvas{width:100%;height:100%;display:block}
+.colstat{display:flex;flex-wrap:wrap;gap:.4em 1.2em;font-family:var(--mono);font-size:.86em;
+  color:var(--dim);margin:.8em 0 0}
+.colstat b{color:var(--cy)}
+.colstat span:nth-child(2) b{color:var(--mg)}

@@ -109,6 +109,7 @@ const DECK = (() => {
     if (window.WORLD3D) WORLD3D.init();
     LABS.install(DECK);
     BOSS.install(DECK);
+    if (window.COLLIDE) COLLIDE.install(DECK);
     go(Math.max(0, Math.min(S.stages.length - 1, parseInt(location.hash.slice(1), 10) || 0)));
   }
 
